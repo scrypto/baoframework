@@ -1,0 +1,39 @@
+<html>
+	<head>
+		<script src="tests.js"></script>
+		<style>
+			#mainmenu {
+				position: absolute;
+				left: 0px;
+				top: 0px;
+				width: 100%;
+				height: 48px;
+				line-height: 48px;
+				background: rgba(0,0,0,0.5);
+				color: #c0c0c0;
+			}
+			.bao--menuitem {
+				padding-left: 18px;
+				padding-right: 18px;
+			}
+			#mainmenu.focus {
+				color: yellow;
+			}
+			#view1 {
+				position: absolute;
+				left:32px;
+				top:64px;
+				width: 600px;
+				height: 400px;
+				background: #c0c0c0;
+				color: #202020;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="mainmenu" data-type="menu"></div>
+		<div id="view1" data-type="view">
+			This is a static div that will become a framework object.
+		</div>
+	</body>
+</html>

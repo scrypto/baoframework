@@ -1,0 +1,16 @@
+Bao Framework (C) 2017 and beyond Bao.Bao@asia.com
+
+Released under the MIT license. See LICENSE for details
+
+Compiling:
+
+This project uses make, tsc (typescript command line), browserify, uglifyjs, php (cli)
+It is up to you as a smart individual to get these into your build system.
+Once done, just run make in the top level directory (and all should be good).
+
+Including the framework in other projects:
+
+I've not thought about this much, but I think if you take the Bao directoy that is
+created in the "node_modules" directory and dump it in the equivalent directory of your
+project - it should maybe work.
+
