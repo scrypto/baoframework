@@ -99,10 +99,6 @@ class Menu extends View
 		let rv = Core("menuitem").createElement("div");
 		if (!entry["label"]) entry["label"] = "&#160;";
 		rv.addEventListener("action", this.onMenuItemAction);
-		rv.style.position = "relative";
-		rv.style.cssFloat = "left";
-		rv.resize("auto", "100%");
-
 		rv.setData(entry);
 
 		if (entry["selected"] === true && !this.selectedEntry) {
