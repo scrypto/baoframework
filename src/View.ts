@@ -181,6 +181,7 @@ class View
 				} catch (e) {}
 			}
 		}
+		/*
 		for (let member in this.element) {
 			if ("function" == typeof (this.element as any)[member]) {
 				if (member.indexOf("$") === 0) continue;
@@ -189,6 +190,7 @@ class View
 				(this.element as any)["$" + member] = (this.element as any)[member];
 			}
 		}
+		*/
 
 		this.element["stitched"] = true;
 		this.element["obtype"] = this.obtype;

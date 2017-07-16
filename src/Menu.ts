@@ -98,7 +98,7 @@ class Menu extends View
 	{
 		let rv = Core("menuitem").$createElement("div");
 		if (!entry["label"]) entry["label"] = "&#160;";
-		rv.$addEventListener("action", this.$onMenuItemAction);
+		rv.addEventListener("action", this.$onMenuItemAction);
 		rv.$setData(entry);
 
 		if (entry["selected"] === true && !this.selectedEntry) {

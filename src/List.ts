@@ -77,7 +77,7 @@ class List extends View
 				// FIXME: if we change this to use the height of the current row,
 				// we can have rows of varying height
 				if (this.rowHeight === 0) {
-					let box = child.$getBoundingClientRect();
+					let box = child.getBoundingClientRect();
 					this.rowHeight = box.height;
 				}
 
@@ -111,7 +111,7 @@ class List extends View
 				// FIXME: if we change this to use the height of the previous row,
 				// we can have rows of varying height
 				if (this.rowHeight === 0) {
-					let box = child.$getBoundingClientRect();
+					let box = child.getBoundingClientRect();
 					this.rowHeight = box.height;
 				}
 

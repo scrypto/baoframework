@@ -181,8 +181,8 @@ let CoreImpl = {
 		}
 		if (!CoreImpl.MetaConfig.element) {
 			let obj = CoreImpl.MetaConfig.$createElement("object");
-			obj.$setAttribute("id", "bao/metaConfig");
-			obj.$setAttribute("data-type", "bao/metaConfig");
+			obj.setAttribute("id", "bao/metaConfig");
+			obj.setAttribute("data-type", "bao/metaConfig");
 			obj.style.width = "0px"; obj.style.height = "0px";
 			obj.style.left = "0px"; obj.style.right = "0px";
 			obj.style.opacity = "0"; obj.style.position = "fixed";
