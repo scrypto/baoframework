@@ -12,32 +12,32 @@ class Focus extends View
 		this.focusedElement = null;
 	}
 
-	set(widget)
+	$set(widget)
 	{
 		if (this.focusedElement !== widget) {
-			if (this.focusedElement) this.focusedElement.blur();
+			if (this.focusedElement) this.focusedElement.$blur();
 			this.focusedElement = widget;
-			if (!this.focusedElement.hasClass("focus")) {
-				this.focusedElement.focus();
+			if (!this.focusedElement.$hasClass("focus")) {
+				this.focusedElement.$focus();
 			}
 		}
 	}
 
-	blur()
+	$blur()
 	{
 		let w = this.focusedElement;
 		this.focusedElement = null;
-		if (w) w.blur();
+		if (w) w.$blur();
 	}
 
-	get()
+	$get()
 	{
 		return this.focusedElement;
 	}
 
-	exclusions()
+	$exclusions()
 	{
-		return super.exclusions().concat(["focus"]);
+		return super.$exclusions().concat(["focus"]);
 	}
 }
 

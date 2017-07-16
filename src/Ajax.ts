@@ -11,43 +11,43 @@ class Ajax extends View
 	{
 		super();
 		this.request = new XMLHttpRequest();
-		this.request.addEventListener("readystatechange", this.onReadyStateChange);
+		this.request.addEventListener("readystatechange", this.$onReadyStateChange);
 	}
 
-	addEventListener(ev, callback)
+	$addEventListener(ev, callback)
 	{
 		this.request.addEventListener(ev, callback);
 	}
 
-	open(method, url, async?)
+	$open(method, url, async?)
 	{
 		this.request.open(method, url, async);
 	}
 
-	send(data?)
+	$send(data?)
 	{
 		this.request.send(data);
 	}
 
-	setData(data)
+	$setData(data)
 	{
 		this.signalData = data;
 	}
 
-	onReadyStateChange(e)
+	$onReadyStateChange(e)
 	{
 		if (this.request.readyState === 4) {
 			if (this.request.status < 400) {
-				this.signal("loaded", this.signalData);
+				this.$signal("loaded", this.signalData);
 			} else {
-				this.signal("error", this.signalData);
+				this.$signal("error", this.signalData);
 			}
 		} else {
-			this.signal("loading", this.signalData);
+			this.$signal("loading", this.signalData);
 		}
 	}
 
-	signal(type, data?)
+	$signal(type, data?)
 	{
 		let ev = document.createEvent("Event");
 		if (ev) {
@@ -58,7 +58,7 @@ class Ajax extends View
 		}
 	}
 
-	abort()
+	$abort()
 	{
 		this.request.abort();
 	}

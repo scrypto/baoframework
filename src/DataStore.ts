@@ -10,20 +10,20 @@ class DataStore extends View
 		super();
 	}
 
-	set(key, data)
+	$set(key, data)
 	{
 		// do we want to check to see if the data has changed or not?
-		this.broadcastDataChanges(key, data);
+		this.$broadcastDataChanges(key, data);
 	}
 
-	setMany(obj)
+	$setMany(obj)
 	{
 		for (let key in obj) {
-			this.broadcastDataChanges(key, obj[key]);
+			this.$broadcastDataChanges(key, obj[key]);
 		}
 	}
 
-	broadcastDataChanges(key, data, node?)
+	$broadcastDataChanges(key, data, node?)
 	{
 		if (!node) node = document.body;
 		var child:any = node.firstChild;
@@ -31,17 +31,19 @@ class DataStore extends View
 			if (child["stitched"]) {
 				let ds = child.getAttribute("data-source");
 				if (ds === key) try {
-					child.setData(data);
-				} catch (e) {}
+					child.$setData(data);
+				} catch (e) {
+					console.log("broadcastData exception: " , e);
+				}
 			}
-			this.broadcastDataChanges(key, data, child);
+			this.$broadcastDataChanges(key, data, child);
 			child = child.nextSibling;
 		}
 	}
 
-	exclusions()
+	$exclusions()
 	{
-		return super.exclusions().concat(["broadcastDataChanges","focus"]);
+		return super.$exclusions().concat(["broadcastDataChanges","focus"]);
 	}
 }
 

@@ -1,19 +1,19 @@
 window.onkeydown = function(e)
 {
 	var focus = document.getElementById("bao/focusManager");
-	var element = focus.get();
+	var element = focus.$get();
 	switch (e.keyCode) {
 		case 37: // left
-			element.onLeftKey();
+			element.$onLeftKey();
 			break;
 		case 38: // up
-			element.onUpKey();
+			element.$onUpKey();
 			break;
 		case 39: // right
-			element.onRightKey();
+			element.$onRightKey();
 			break;
 		case 40: // down
-			element.onDownKey();
+			element.$onDownKey();
 			break;
 	}
 }
@@ -21,7 +21,7 @@ window.onkeydown = function(e)
 window.onload = function()
 {
 	var datastore = document.getElementById("bao/dataStore");
-	datastore.set("mainmenu", 
+	datastore.$set("mainmenu", 
 		[
 			{
 				"label": "Entry 1",
@@ -53,9 +53,6 @@ window.onload = function()
 
 	if (menu.firstChild) {
 		var focus = document.getElementById("bao/focusManager");
-		focus.set(menu.firstChild);
+		focus.$set(menu.firstChild);
 	}
-
-	var list = document.getElementById("list");
-	list.setLimits(1, 10);
 }

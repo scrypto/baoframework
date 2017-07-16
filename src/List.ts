@@ -20,12 +20,12 @@ class List extends View
 		this.rowHeight = 0;
 	}
 
-	createContent()
+	$createContent()
 	{
-		this.createRowsFromChildren();
+		this.$createRowsFromChildren();
 	}
 
-	createRowsFromChildren()
+	$createRowsFromChildren()
 	{
 		let id = this.element.getAttribute("id");
 		this.numRows = this.element.children.length;
@@ -38,16 +38,16 @@ class List extends View
 			div.style.webkitTransform = "translateY(0px)";
 			div.style.overflow = "hidden";
 
-			div.addEventListener("transitioned", this.transitionCompleted);
-			div.addEventListener("webkitTransitionEnd", this.transitionCompleted);
-			div.addEventListener("oTransitionEnd", this.transitionCompleted);
-			div.addEventListener("MSTransitionEnd", this.transitionCompleted);
+			div.addEventListener("transitioned", this.$transitionCompleted);
+			div.addEventListener("webkitTransitionEnd", this.$transitionCompleted);
+			div.addEventListener("oTransitionEnd", this.$transitionCompleted);
+			div.addEventListener("MSTransitionEnd", this.$transitionCompleted);
 
 			this.translations[i] = 0;
 		}
 	}
 
-	transitionCompleted(e)
+	$transitionCompleted(e)
 	{
 		if (!e || e.propertyName.indexOf("ransform") > 0) {
 			if (this.translationComplete === false) {
@@ -57,12 +57,12 @@ class List extends View
 					child.style.visibility = "";
 					child.style.opacity = "1";
 				}
-				this.focus();
+				this.$focus();
 			}
 		}
 	}
 
-	goUp()
+	$goUp()
 	{
 		if (this.index + 1 === this.numRows) return false;
 
@@ -77,7 +77,7 @@ class List extends View
 				// FIXME: if we change this to use the height of the current row,
 				// we can have rows of varying height
 				if (this.rowHeight === 0) {
-					let box = child.getBoundingClientRect();
+					let box = child.$getBoundingClientRect();
 					this.rowHeight = box.height;
 				}
 
@@ -89,14 +89,14 @@ class List extends View
 				this.translations[i] = t;
 			}
 
-			if (Core().MetaConfig.get("animation") === "off") {
-				this.transitionCompleted(null);
+			if (Core().MetaConfig.$get("animation") === "off") {
+				this.$transitionCompleted(null);
 			}
 		}
 		return true;
 	}
 
-	goDown()
+	$goDown()
 	{
 		if (this.index === 0) return false;
 
@@ -111,7 +111,7 @@ class List extends View
 				// FIXME: if we change this to use the height of the previous row,
 				// we can have rows of varying height
 				if (this.rowHeight === 0) {
-					let box = child.getBoundingClientRect();
+					let box = child.$getBoundingClientRect();
 					this.rowHeight = box.height;
 				}
 
@@ -123,32 +123,32 @@ class List extends View
 				this.translations[i] = t;
 			}
 
-			if (Core().MetaConfig.get("animation") === "off") {
-				this.transitionCompleted(null);
+			if (Core().MetaConfig.$get("animation") === "off") {
+				this.$transitionCompleted(null);
 			}
 		}
 		return true;
 	}
 
-	focus()
+	$focus()
 	{
 		let child:any = this.element.children[this.index];
 		if (child) {
 			if ("function" === typeof child.focus) {
-				if (child.focus()) return true;
+				if (child.$focus()) return true;
 			}
 		}
-		return super.focus();
+		return super.$focus();
 	}
 
-	onDownKey()
+	$onDownKey()
 	{
-		if (!this.goUp()) super.onDownKey();
+		if (!this.$goUp()) super.$onDownKey();
 	}
 
-	onUpKey()
+	$onUpKey()
 	{
-		if (!this.goDown()) super.onUpKey();
+		if (!this.$goDown()) super.$onUpKey();
 	}
 }
 

@@ -28,7 +28,7 @@ class Carousel extends View
 		this.transform = true;
 	}
 
-	setTileWidth(width:number)
+	$setTileWidth(width:number)
 	{
 		if (this.element && this.element.children) {
 			for (let i = 0; i < this.element.children.length; i++) {
@@ -45,7 +45,7 @@ class Carousel extends View
 		this.tileWidth = width;
 	}
 
-	setWrap(wrap:boolean)
+	$setWrap(wrap:boolean)
 	{
 		if (this.wrap !== wrap) {
 			let offset = wrap ? (0 - this.tileWidth) : 0;
@@ -61,14 +61,14 @@ class Carousel extends View
 		}
 	}
 
-	createContent()
+	$createContent()
 	{
 		this.element.style.whiteSpace = "nowrap";
 		this.element.setAttribute("data-orientation", "horizontal");
-		this.createTiles();
+		this.$createTiles();
 	}
 
-	createTiles(max?)
+	$createTiles(max?)
 	{
 		if (undefined === max) max = this.numTiles;
 		this.translationComplete = true;
@@ -92,16 +92,16 @@ class Carousel extends View
 			div.style.height = "100%";
 			this.element.appendChild(div);
 
-			div.addEventListener("transitioned", this.transitionCompleted);
-			div.addEventListener("webkitTransitionEnd", this.transitionCompleted);
-			div.addEventListener("oTransitionEnd", this.transitionCompleted);
-			div.addEventListener("MSTransitionEnd", this.transitionCompleted);
+			div.addEventListener("transitioned", this.$transitionCompleted);
+			div.addEventListener("webkitTransitionEnd", this.$transitionCompleted);
+			div.addEventListener("oTransitionEnd", this.$transitionCompleted);
+			div.addEventListener("MSTransitionEnd", this.$transitionCompleted);
 
 			this.translations[i] = (0 - this.tileWidth);
 		}
 	}
 
-	transitionCompleted(e)
+	$transitionCompleted(e)
 	{
 		if (!e || e.propertyName.indexOf("ransform") > 0) {
 			if (this.translationComplete === false) {
@@ -118,7 +118,7 @@ class Carousel extends View
 		}
 	}
 
-	goLeft()
+	$goLeft()
 	{
 		if (!this.wrap && this.index+1 === this.numTiles) return;
 
@@ -148,19 +148,19 @@ class Carousel extends View
 				outer.style.visibility = "hidden";
 				outer.style.opacity = "0";
 				this.translations[this.outerIndex] = t;
-				this.repurposeOuter(outer, "left");
+				this.$repurposeOuter(outer, "left");
 			}
 
 			if (this.wrap) this.focusIndex = (this.index+1) % this.numTiles;
 			else this.focusIndex = this.index % this.numTiles;
 
-			if (Core().MetaConfig.get("animation") === "off") {
-				this.transitionCompleted(null);
+			if (Core().MetaConfig.$get("animation") === "off") {
+				this.$transitionCompleted(null);
 			}
 		}
 	}
 
-	goRight()
+	$goRight()
 	{
 		if (!this.wrap && this.index === 0) return;
 
@@ -190,31 +190,31 @@ class Carousel extends View
 				outer.style.visibility = "hidden";
 				outer.style.opacity = "0";
 				this.translations[this.outerIndex] = t;
-				this.repurposeOuter(outer, "right");
+				this.$repurposeOuter(outer, "right");
 			}
 
 			if (this.wrap) this.focusIndex = (this.index+1) % this.numTiles;
 			else this.focusIndex = this.index % this.numTiles;
 
-			if (Core().MetaConfig.get("animation") === "off") {
-				this.transitionCompleted(null);
+			if (Core().MetaConfig.$get("animation") === "off") {
+				this.$transitionCompleted(null);
 			}
 		}
 	}
 
-	repurposeOuter(outer, direction) {}
+	$repurposeOuter(outer, direction) {}
 
-	onLeftKey()
+	$onLeftKey()
 	{
-		this.goRight();
+		this.$goRight();
 	}
 
-	onRightKey()
+	$onRightKey()
 	{
-		this.goLeft();
+		this.$goLeft();
 	}
 
-	focus()
+	$focus()
 	{
 		for (let i = 0; i < this.element.children.length; i++) {
 			let child:any = this.element.children[i];
@@ -224,16 +224,16 @@ class Carousel extends View
 				child.setAttribute("class", "bao--carouselitem");
 			}
 		}
-		return super.focus();
+		return super.$focus();
 	}
 
-	blur()
+	$blur()
 	{
 		for (let i = 0; i < this.element.children.length; i++) {
 			let child:any = this.element.children[i];
 			child.setAttribute("class", "bao--carouselitem");
 		}
-		super.blur();
+		super.$blur();
 	}
 }
 

@@ -12,27 +12,20 @@ class Style extends View
 		super();
 		this.styles = {}
 		this.element = null;
-		/*
-		for (let member in this) {
-			if ("function" === typeof this[member]) {
-				this[member] = (this[member] as any).bind(this);
-			}
-		}
-		*/
 	}
 
-	assignElement(node)
+	$assignElement(node)
 	{
 		//this.element = node;
-		let rv = super.assignElement(node);
-		this.element.innerHTML = this.getBaoStyle();
+		let rv = super.$assignElement(node);
+		this.element.innerHTML = this.$getBaoStyle();
 		return rv;
 	}
 
-	getBaoStyle()
+	$getBaoStyle()
 	{
 		let rv = "";
-		if (Core().MetaConfig.get("animation") !== "off") {
+		if (Core().MetaConfig.$get("animation") !== "off") {
 			// FIXME: move this into carousel and list code
 			rv += ".bao--listitem,.bao--gridrow,.bao--carouselitem { background: transparent; -webkit-transition: -webkit-transform 0.25s, opacity 0.1s; -moz-transition: -moz-transform 0.25s, opacity 0.1s; -o-transition: -o-transform 0.25s, opacity 0.1s; transition: transform 0.25s, opacity 0.1s; }";
 		}
@@ -43,10 +36,10 @@ class Style extends View
 		return rv.trim();
 	}
 
-	addStyle(selector, rules)
+	$addStyle(selector, rules)
 	{
 		this.styles[selector] = rules.join(" ");
-		this.element.innerHTML = this.getBaoStyle();
+		this.element.innerHTML = this.$getBaoStyle();
 	}
 }
 

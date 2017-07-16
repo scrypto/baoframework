@@ -7,16 +7,16 @@ class Meta extends View
 	constructor()
 	{
 		super();
-		this.readMetaTags();
+		this.$readMetaTags();
 	}
 
-	get(key)
+	$get(key)
 	{
 		if (this.nvp[key] !== undefined) return this.nvp[key];
 		return this.nvp["bao/" + key];
 	}
 
-	readMetaTags()
+	$readMetaTags()
 	{
 		let tags = document.getElementsByTagName("meta");
 		this.nvp = [];
@@ -34,9 +34,9 @@ class Meta extends View
 		}
 	}
 
-	exclusions()
+	$exclusions()
 	{
-		return super.exclusions().concat(["focus"]);
+		return super.$exclusions().concat(["focus"]);
 	}
 }
 

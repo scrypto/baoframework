@@ -18,21 +18,21 @@ class MenuItem extends View
 		this.active = false;
 	}
 
-	setData(data)
+	$setData(data)
 	{
-		if (undefined !== data["label"]) this.setLabel(data["label"]);
-		if (undefined !== data["color"]) this.setColor(data["color"]);
-		if (undefined !== data["action"]) this.setAction(data["action"]);
-		if (undefined !== data["id"]) this.setId(data["id"]);
+		if (undefined !== data["label"]) this.$setLabel(data["label"]);
+		if (undefined !== data["color"]) this.$setColor(data["color"]);
+		if (undefined !== data["action"]) this.$setAction(data["action"]);
+		if (undefined !== data["id"]) this.$setId(data["id"]);
 	}
 
-	setLabel(label)
+	$setLabel(label)
 	{
 		this.label = label;
 		this.element.innerHTML = this.color + this.label;
 	}
 
-	setColor(color)
+	$setColor(color)
 	{
 		if (color === false) {
 			this.color = "";
@@ -45,26 +45,26 @@ class MenuItem extends View
 		}
 	}
 
-	setAction(action)
+	$setAction(action)
 	{
 		this.action = action;
 	}
 
-	setActive(active)
+	$setActive(active)
 	{
 		this.active = active;
-		if (this.active) this.addClass("active");
-		else this.removeClass("active");
+		if (this.active) this.$addClass("active");
+		else this.$removeClass("active");
 	}
 
-	onEnterKey()
+	$onEnterKey()
 	{
-		this.signal("action", this.action);
+		this.$signal("action", this.action);
 	}
 
-	onClick(e)
+	$onClick(e)
 	{
-		this.onEnterKey();
+		this.$onEnterKey();
 		if (e.stopPropagation) e.stopPropagation();
 		if (e.preventDefault) e.preventDefault();
 		return false;
@@ -84,58 +84,58 @@ class Menu extends View
 		this.obtype = "menu";
 	}
 
-	setData(entries)
+	$setData(entries)
 	{
 		this.element.innerHTML = "";
 		this.selectedEntry = null;
 		for (let i = 0; i < entries.length; i++) {
-			let entry = this.createMenuEntry(entries[i]);
-			if (entry) this.appendChild(entry);
+			let entry = this.$createMenuEntry(entries[i]);
+			if (entry) this.$appendChild(entry);
 		}
 	}
 
-	createMenuEntry(entry)
+	$createMenuEntry(entry)
 	{
-		let rv = Core("menuitem").createElement("div");
+		let rv = Core("menuitem").$createElement("div");
 		if (!entry["label"]) entry["label"] = "&#160;";
-		rv.addEventListener("action", this.onMenuItemAction);
-		rv.setData(entry);
+		rv.$addEventListener("action", this.$onMenuItemAction);
+		rv.$setData(entry);
 
 		if (entry["selected"] === true && !this.selectedEntry) {
-			rv.setActive(true);
+			rv.$setActive(true);
 			this.selectedEntry = rv;
 		}
 		return rv;
 	}
 
-	onMenuItemAction(e)
+	$onMenuItemAction(e)
 	{
-		this.signal("action", e.signalData);
+		this.$signal("action", e.signalData);
 		if (e.stopPropagation) e.stopPropagation();
 		if (e.preventDefault) e.preventDefault();
 		return false;
 	}
 
-	focus(obj?)
+	$focus(obj?)
 	{
 		let f = Core().Focus;
 		let node:any = this.element.firstChild;
 		while (node) {
 			if (node.obtype === "menuitem") {
-				f.blur(node);
+				f.$blur(node);
 			}
 			node = node.nextSibling;
 		}
 
 		if (obj && obj.obtype === "menuitem") {
-			f.set(obj);
+			f.$set(obj);
 		} else if (this.selectedEntry) {
-			f.set(this.selectedEntry);
+			f.$set(this.selectedEntry);
 		} else {
 			let node:any = this.element.firstChild;
 			while (node) {
 				if (node.obtype === "menuitem") {
-					f.set(node);
+					f.$set(node);
 					break;
 				}
 				node = node.nextSibling;
@@ -144,13 +144,13 @@ class Menu extends View
 		return true;
 	}
 
-	setSelectedEntry(entry)
+	$setSelectedEntry(entry)
 	{
 		if (this.selectedEntry) {
-			this.selectedEntry.removeClass("selected");
+			this.selectedEntry.$removeClass("selected");
 		}
 		this.selectedEntry = entry;
-		if (entry) this.selectedEntry.addClass("selected");
+		if (entry) this.selectedEntry.$addClass("selected");
 	}
 }
 
