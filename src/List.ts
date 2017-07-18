@@ -32,6 +32,8 @@ class List extends View
 				"-o-transition: -o-transform 0.25s, opacity 0.1s;",
 				"transition: transform 0.25s, opacity 0.1s;"
 			]);
+		} else {
+			Core().Style.$remove(".bao--carouselitem");
 		}
 	}
 

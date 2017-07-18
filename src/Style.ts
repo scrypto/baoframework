@@ -16,7 +16,6 @@ class Style extends View
 
 	$assignElement(node)
 	{
-		//this.element = node;
 		let rv = super.$assignElement(node);
 		this.element.innerHTML = this.$getBaoStyle();
 		return rv;
@@ -33,9 +32,23 @@ class Style extends View
 
 	$addStyle(selector, rules)
 	{
-		this.styles[selector] = rules.join(" ");
+		let r = rules.join(" ");
+		if (undefined !== this.styles[selector]) {
+			if (r === this.styles[selector]) return;
+		}
+
+		this.styles[selector] = r;
 		this.element.innerHTML = this.$getBaoStyle();
 	}
+
+	$removeStyle(selector)
+	{
+		if (this.styles[selector]) {
+			delete this.styles[selector];
+			this.element.innerHTML = this.$getBaoStyle();
+		}
+	}
+
 }
 
 export default Style;
