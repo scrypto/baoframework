@@ -175,7 +175,7 @@ class View
 		for (let member in this) {
 			if ("function" === typeof this[member]) {
 				if (exclude.indexOf(member) > -1) continue;
-				if (exclude.indexOf('$'+member) > -1) continue;
+				if (exclude.indexOf(member.substr(1)) > -1) continue;
 				try {
 					(this.element as any)[member] = this[member];
 				} catch (e) {}
@@ -230,7 +230,7 @@ class View
 			if (node) {
 				var sibling:any = node.previousSibling;
 				while (sibling) {
-					if (sibling.focus && sibling["stitched"]) {
+					if (sibling.$focus && sibling["stitched"]) {
 						var focus:any = Core().Focus;
 						if (focus && sibling.$focus()) {
 							focus.$set(sibling);
@@ -251,7 +251,7 @@ class View
 			if (node) {
 				var sibling:any = node.nextSibling;
 				while (sibling) {
-					if (sibling.focus && sibling["stitched"]) {
+					if (sibling.$focus && sibling["stitched"]) {
 						var focus:any = Core().Focus;
 						if (focus && sibling.$focus()) {
 							focus.$set(sibling);
@@ -272,7 +272,7 @@ class View
 			if (node) {
 				var sibling:any = node.previousSibling;
 				while (sibling) {
-					if (sibling.focus && sibling["stitched"]) {
+					if (sibling.$focus && sibling["stitched"]) {
 						var focus:any = Core().Focus;
 						if (focus && sibling.$focus()) {
 							focus.$set(sibling);
@@ -293,7 +293,7 @@ class View
 			if (node) {
 				var sibling:any = node.nextSibling;
 				while (sibling) {
-					if (sibling.focus && sibling["stitched"]) {
+					if (sibling.$focus && sibling["stitched"]) {
 						var focus:any = Core().Focus;
 						if (focus && sibling.$focus()) {
 							focus.$set(sibling);
