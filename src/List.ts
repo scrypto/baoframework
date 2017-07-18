@@ -23,6 +23,16 @@ class List extends View
 	$createContent()
 	{
 		this.$createRowsFromChildren();
+
+		if (Core().MetaConfig.$get("animation") !== "off") {
+			Core().Style.$addStyle(".bao--listitem", [
+				"background: transparent;",
+				"-webkit-transition: -webkit-transform 0.25s, opacity 0.1s;",
+				"-moz-transition: -moz-transform 0.25s, opacity 0.1s;",
+				"-o-transition: -o-transform 0.25s, opacity 0.1s;",
+				"transition: transform 0.25s, opacity 0.1s;"
+			]);
+		}
 	}
 
 	$createRowsFromChildren()

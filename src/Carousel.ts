@@ -63,6 +63,16 @@ class Carousel extends View
 
 	$createContent()
 	{
+		if (Core().MetaConfig.$get("animation") !== "off") {
+			Core().Style.$addStyle(".bao--carouselitem", [
+				"background: transparent;",
+				"-webkit-transition: -webkit-transform 0.25s, opacity 0.1s;",
+				"-moz-transition: -moz-transform 0.25s, opacity 0.1s;",
+				"-o-transition: -o-transform 0.25s, opacity 0.1s;",
+				"transition: transform 0.25s, opacity 0.1s;"
+			]);
+		}
+
 		this.element.style.whiteSpace = "nowrap";
 		this.element.setAttribute("data-orientation", "horizontal");
 		this.$createTiles();

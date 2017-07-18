@@ -25,11 +25,6 @@ class Style extends View
 	$getBaoStyle()
 	{
 		let rv = "";
-		if (Core().MetaConfig.$get("animation") !== "off") {
-			// FIXME: move this into carousel and list code
-			rv += ".bao--listitem,.bao--gridrow,.bao--carouselitem { background: transparent; -webkit-transition: -webkit-transform 0.25s, opacity 0.1s; -moz-transition: -moz-transform 0.25s, opacity 0.1s; -o-transition: -o-transform 0.25s, opacity 0.1s; transition: transform 0.25s, opacity 0.1s; }";
-		}
-
 		for (let selector in this.styles) {
 			rv += " " + selector + " { " + this.styles[selector] + " } ";
 		}
