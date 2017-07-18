@@ -10,9 +10,9 @@ all: test.js
 test.js: $(MODULEDIR)/*/* $(FILES)
 	for x in $(FILES); do $(TSC) $$x; done
 	$(PACK) Test.js -o tests.js
-	$(PACK) Imports.js -o fw.js
-	$(MINIFY) fw.js > fw.min.js
-	$(PACKER) fw.min.js fw.pack.js
+	$(PACK) Imports.js -o bao.js
+	$(MINIFY) bao.js > bao.min.js
+	$(PACKER) bao.min.js bao.pack.js
 
 clean:
-	rm -rf Test.js tests.js Imports.js fw.js fw.min.js fw.pack.js
+	rm -rf Test.js tests.js Imports.js bao.js bao.min.js bao.pack.js
