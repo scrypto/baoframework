@@ -16,6 +16,18 @@ class Meta extends View
 		return this.nvp["bao/" + key];
 	}
 
+	$set(key, value)
+	{
+		if (key.indexOf("bao/") === 0) {
+			if (this.nvp[key] !== undefined) {
+				this.nvp[key] = value;
+				return;
+			}
+			key = key.substring(4);
+		}
+		this.nvp[key] = value;
+	}
+
 	$readMetaTags()
 	{
 		let tags = document.getElementsByTagName("meta");
