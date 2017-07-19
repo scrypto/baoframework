@@ -48,7 +48,6 @@ class Style extends View
 			this.element.innerHTML = this.$getBaoStyle();
 		}
 	}
-
 }
 
 export default Style;
