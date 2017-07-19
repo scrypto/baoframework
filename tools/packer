@@ -690,7 +690,7 @@ $cleanup .= "if (p) p.removeChild(s[i]);";
  */
 
 // minified cleanup
-$clenup = 'var s=document.getElementsByTagName("script"),i=s.length-1,p=s[i].parentNode;p&&p.removeChild(s[i]);';
+$cleanup = 'var s=document.getElementsByTagName("script"),i=s.length-1,p=s[i].parentNode;p&&p.removeChild(s[i]);';
 
 $script = file_get_contents($src) . ";\n$cleanup;\n";
 
