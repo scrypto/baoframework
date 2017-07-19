@@ -285,7 +285,7 @@ class JavaScriptPacker {
 			$params[] = '{}';
 		}
 		$params = implode(',', $params);
-		
+
 		// the whole thing
 		return 'eval(' . $unpack . '(' . $params . "))\n";
 	}
@@ -682,7 +682,17 @@ if ($argc >= 3) {
 	return;
 }
 
-$script = file_get_contents($src);
+/*
+$cleanup =  "var s = document.getElementsByTagName(\"script\");\n";
+$cleanup .= "var i = s.length - 1;\n";
+$cleanup .= "var p = s[i].parentNode;\n";
+$cleanup .= "if (p) p.removeChild(s[i]);";
+ */
+
+// minified cleanup
+$clenup = 'var s=document.getElementsByTagName("script"),i=s.length-1,p=s[i].parentNode;p&&p.removeChild(s[i]);';
+
+$script = file_get_contents($src) . ";\n$cleanup;\n";
 
 $t1 = microtime(true);
 
