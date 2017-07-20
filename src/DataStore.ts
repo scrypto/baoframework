@@ -30,8 +30,8 @@ class DataStore extends View
 		while (child) {
 			if (child["stitched"]) {
 				let ds = child.getAttribute("data-source");
-				if (ds === key) try {
-					child.$setData(data);
+				try {
+					if (ds === key) child.$setData(data);
 				} catch (e) {
 					console.log("broadcastData exception: " , e);
 				}

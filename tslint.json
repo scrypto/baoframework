@@ -1,0 +1,8 @@
+{
+	"rules": {
+		"indent": [ true, "tabs" ],
+		"curly": [ true, "ignore-same-line" ],
+		"one-line": [ true, "check-catch", "check-finally",
+					"check-else", "check-whitespace" ]
+	}
+}
