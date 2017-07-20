@@ -7,6 +7,7 @@ let CoreImpl = {
 	components: {},
 	cache: {},
 	platform: {},
+	currentTagName: null,
 	register: function(type, constructor, rules)
 	{
 		type = type.toLowerCase();
@@ -33,7 +34,9 @@ let CoreImpl = {
 					if (type == "bao/metaConfig") {
 						obj = CoreImpl.MetaConfig;
 					} else {
+						CoreImpl.currentTagName = node.tagName;
 						obj = CoreImpl.create(type);
+						CoreImpl.currentTagName = null;
 					}
 					if (obj) {
 						obj.$assignElement(node);
@@ -83,9 +86,16 @@ let CoreImpl = {
 	{
 		if (!CoreImpl.initialised) CoreImpl.getPlatform();
 
+		if (!component) return false;
+
 		if (component.rules) {
 			if (!CoreImpl.initialised) {
 				return false;
+			}
+			if (CoreImpl.currentTagName && component.rules.tag) {
+				if (CoreImpl.currentTagName.toLowerCase() != component.rules.tag.toLowerCase()) {
+					return false;
+				}
 			}
 			if (component.rules.ua) {
 				if (typeof component.rules.ua == "string") {
