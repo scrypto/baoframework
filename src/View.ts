@@ -176,21 +176,12 @@ class View
 			if ("function" === typeof this[member]) {
 				if (exclude.indexOf(member) > -1) continue;
 				if (exclude.indexOf(member.substr(1)) > -1) continue;
+				if (member.indexOf("_") === 0) continue;
 				try {
 					(this.element as any)[member] = this[member];
 				} catch (e) {}
 			}
 		}
-		/*
-		for (let member in this.element) {
-			if ("function" == typeof (this.element as any)[member]) {
-				if (member.indexOf("$") === 0) continue;
-				if (exclude.indexOf(member) > -1) continue;
-				if ((this.element as any)["$"+member]) continue;
-				(this.element as any)["$" + member] = (this.element as any)[member];
-			}
-		}
-		*/
 
 		this.element["stitched"] = true;
 		this.element["obtype"] = this.obtype;
