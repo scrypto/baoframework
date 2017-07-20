@@ -101,7 +101,7 @@ class View
 		if (this.element.getAttribute("data-focus") !== "nofocus") {
 			if (!this.$hasClass("focused")) {
 				this.$addClass("focused");
-				this.$signal("focus");
+				this.$signal("$focus");
 			}
 			return true;
 		}
@@ -112,7 +112,7 @@ class View
 	{
 		if (this.$hasClass("focused")) {
 			this.$removeClass("focused");
-			this.$signal("blur");
+			this.$signal("$blur");
 		}
 	}
 
@@ -301,7 +301,7 @@ class View
 
 	$onEnterKey()
 	{
-		this.$signal("action");
+		this.$signal("$action");
 	}
 
 	$setOrientation(orientation)

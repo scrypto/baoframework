@@ -38,13 +38,14 @@ class Ajax extends View
 	{
 		if (this.request.readyState === 4) {
 			if (this.request.status < 400) {
-				this.$signal("loaded", this.signalData);
+				this.$signal("$loaded", this.signalData);
 			} else {
-				this.$signal("error", this.signalData);
+				this.$signal("$error", this.signalData);
 			}
 		} else {
-			this.$signal("loading", this.signalData);
+			this.$signal("$loading", this.signalData);
 		}
+		this.$signal("$readystatechange");
 	}
 
 	$signal(type, data?)

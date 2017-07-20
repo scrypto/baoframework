@@ -47,7 +47,7 @@ window.onload = function()
 	);
 
 	var menu = document.getElementById("mainmenu");
-	menu.addEventListener("action", function(e) {
+	menu.addEventListener("$action", function(e) {
 		console.log("menu action: " + e.signalData);
 	});
 

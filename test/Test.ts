@@ -20,7 +20,7 @@ window.onload = function()
 		]
 	);
 
-	menu.addEventListener("action", function(e) {
+	menu.addEventListener("$action", function(e) {
 		console.log("got menuitem action: ", e);
 	});
 

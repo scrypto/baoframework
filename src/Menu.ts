@@ -59,7 +59,7 @@ class MenuItem extends View
 
 	$onEnterKey()
 	{
-		this.$signal("action", this.action);
+		this.$signal("$action", this.action);
 	}
 
 	$onClick(e)
@@ -110,7 +110,7 @@ class Menu extends View
 
 	$onMenuItemAction(e)
 	{
-		this.$signal("action", e.signalData);
+		this.$signal("$action", e.signalData);
 		if (e.stopPropagation) e.stopPropagation();
 		if (e.preventDefault) e.preventDefault();
 		return false;
