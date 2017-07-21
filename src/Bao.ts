@@ -3,5 +3,6 @@ import "Bao/DataStore"
 import "Bao/Focus"
 import "Bao/Meta"
 
-const $ = (id:string):any => document.getElementById(id);
+let $ = (id:string):any => document.getElementById($["prefix"]+id);
+$["prefix"] = "";
 export default $
