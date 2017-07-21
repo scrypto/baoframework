@@ -1,7 +1,7 @@
-import Core from "Bao/Core"
 import "Bao/Style"
 import "Bao/DataStore"
 import "Bao/Focus"
 import "Bao/Meta"
 
-export default Core
+const $ = (id:string):any => document.getElementById(id);
+export default $
