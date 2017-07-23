@@ -160,6 +160,12 @@ class View
 		}
 	}
 
+	$preventDefault(e)
+	{
+		if (e.preventDefault) e.preventDefault();
+		if (e.stopPropagation) e.stopPropagation();
+	}
+
 	$bind()
 	{
 		for (let member in this) {

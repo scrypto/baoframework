@@ -5,4 +5,5 @@ import "Bao/Meta"
 
 let $ = (id:string):any => document.getElementById($["prefix"]+id);
 $["prefix"] = "";
+
 export default $
