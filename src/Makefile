@@ -15,7 +15,7 @@ TS_FILES=Core.ts \
 	Meta.ts \
 	Bao.ts
 
-JS_FILES=$(TS_FILES:%.ts=$(MODULEDIR)/Bao/%.js)
+JS_FILES=$(TS_FILES:%.ts=$(MODULEDIR)/bao-framework/%.js)
 
 .PHONY: all lint
 
@@ -24,8 +24,8 @@ all: lint $(JS_FILES) all-recursive
 lint: $(TS_FILES)
 	[ `which tslint` ] && tslint -c $(TOPSRCDIR)/tslint.json $(TS_FILES)
 
-$(MODULEDIR)/Bao/%.js: %.ts
-	$(TSC) -d --declarationDir $(TOPSRCDIR)/node_modules/Bao --outDir $(TOPSRCDIR)/node_modules/Bao/ $<
+$(MODULEDIR)/bao-framework/%.js: %.ts
+	$(TSC) -d --declarationDir $(TOPSRCDIR)/node_modules/bao-framework --outDir $(TOPSRCDIR)/node_modules/bao-framework/ $<
 
 clean: clean-recursive
-	rm -rf $(MODULEDIR)/Bao
+	rm -rf $(MODULEDIR)/bao-framework

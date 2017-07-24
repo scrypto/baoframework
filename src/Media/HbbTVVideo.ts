@@ -1,4 +1,4 @@
-import Core from "Bao/Core"
+import Core from "bao-framework/Core"
 import BaseVideo from "./BaseVideo"
 
 class HbbTVVideo extends BaseVideo

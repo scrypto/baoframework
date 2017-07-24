@@ -1,4 +1,4 @@
-import View from "Bao/View"
+import View from "bao-framework/View"
 
 class BaseVideo extends View
 {

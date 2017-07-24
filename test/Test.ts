@@ -1,6 +1,6 @@
-import Core from "Bao/Core"
-import "Bao/Menu"
-import "Bao/View"
+import Core from "bao-framework/Core"
+import "bao-framework/Menu"
+import "bao-framework/View"
 
 window.onload = function()
 {

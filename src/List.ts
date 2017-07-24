@@ -1,5 +1,5 @@
-import View from "Bao/View"
-import Core from "Bao/Core"
+import View from "bao-framework/View"
+import Core from "bao-framework/Core"
 
 class List extends View
 {
