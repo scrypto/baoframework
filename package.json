@@ -1,0 +1,11 @@
+{
+	"name": "baoframework",
+	"version": "1.0.0",
+	"description": "a 'lightweight' framework from Thailand",
+	"main": "node_modules/Bao/Bao.js",
+	"types": "node_modules/Bao/Bao.d.js",
+	"scripts": {
+		"build": "make all dist",
+		"clean": "make clean"
+	}
+}
