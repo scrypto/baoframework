@@ -24,6 +24,7 @@ class MenuItem extends View
 		if (undefined !== data["color"]) this.$setColor(data["color"]);
 		if (undefined !== data["action"]) this.$setAction(data["action"]);
 		if (undefined !== data["id"]) this.$setId(data["id"]);
+		if (undefined !== data["active"]) this.$setId(data["active"]);
 	}
 
 	$setLabel(label)
