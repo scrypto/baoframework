@@ -1,5 +1,5 @@
 {
-	"name": "baoframework",
+	"name": "Bao",
 	"version": "1.0.0",
 	"description": "a 'lightweight' framework from Thailand",
 	"main": "node_modules/Bao/Bao.js",
