@@ -217,6 +217,10 @@ class View
 		if (data) {
 			if (data["innerHTML"]) {
 				this.element.innerHTML = data["innerHTML"];
+			} else if (data["addClass"]) {
+				this.element.classList.add(data["addClass"]);
+			} else if (data["removeClass"]) {
+				this.element.classList.remove(data["removeClass"]);
 			} else if ("string" == typeof data) {
 				this.element.innerHTML = data;
 			}
