@@ -214,8 +214,12 @@ class View
 
 	$setData(data)
 	{
-		if (data && data["innerHTML"]) {
-			this.element.innerHTML = data["innerHTML"];
+		if (data) {
+			if (data["innerHTML"]) {
+				this.element.innerHTML = data["innerHTML"];
+			} else if ("string" == typeof data) {
+				this.element.innerHTML = data;
+			}
 		}
 	}
 
