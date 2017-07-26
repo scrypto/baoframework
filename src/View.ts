@@ -214,6 +214,9 @@ class View
 
 	$setData(data)
 	{
+		if (data && data["innerHTML"]) {
+			this.element.innerHTML = data["innerHTML"];
+		}
 	}
 
 	$onClick(e)
