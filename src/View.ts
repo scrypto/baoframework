@@ -214,6 +214,13 @@ class View
 
 	$setData(data)
 	{
+		if (data) {
+			if (data["innerHTML"]) {
+				this.element.innerHTML = data["innerHTML"];
+			} else if ("string" == typeof data) {
+				this.element.innerHTML = data;
+			}
+		}
 	}
 
 	$onClick(e)
