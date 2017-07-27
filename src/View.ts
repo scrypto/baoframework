@@ -234,7 +234,7 @@ class View
 
 	$onLeftKey(node?)
 	{
-		if (this.orientation === "horizontal") {
+		if (this.orientation.indexOf("horizontal") >= 0) {
 			if (node) {
 				var sibling:any = node.previousSibling;
 				while (sibling) {
@@ -255,7 +255,7 @@ class View
 
 	$onRightKey(node?)
 	{
-		if (this.orientation === "horizontal") {
+		if (this.orientation.indexOf("horizontal") >= 0) {
 			if (node) {
 				var sibling:any = node.nextSibling;
 				while (sibling) {
@@ -276,7 +276,7 @@ class View
 
 	$onUpKey(node?)
 	{
-		if (this.orientation === "vertical") {
+		if (this.orientation.indexOf("vertical") >= 0) {
 			if (node) {
 				var sibling:any = node.previousSibling;
 				while (sibling) {
@@ -297,7 +297,7 @@ class View
 
 	$onDownKey(node?)
 	{
-		if (this.orientation === "vertical") {
+		if (this.orientation.indexOf("vertical") >= 0) {
 			if (node) {
 				var sibling:any = node.nextSibling;
 				while (sibling) {
