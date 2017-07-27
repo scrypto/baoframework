@@ -52,7 +52,7 @@ class Grid extends View
 
 	onTileAction(e)
 	{
-		this.signal("$action", e.sender);
+		this.$signal("$action", e.sender);
 	}
 
 	$focus()
