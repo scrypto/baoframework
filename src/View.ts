@@ -249,8 +249,15 @@ class View
 				}
 			}
 		}
+
 		var p:any = this.element.parentNode;
-		if (p && p.$onLeftKey) p.$onLeftKey(this.element);
+		while (p) {
+			if (p && p.$onDownKey) {
+				p.$onLeftKey(this.element);
+				break;
+			}
+			p = p.parentNode;
+		}
 	}
 
 	$onRightKey(node?)
@@ -270,8 +277,15 @@ class View
 				}
 			}
 		}
+
 		var p:any = this.element.parentNode;
-		if (p && p.$onRightKey) p.$onRightKey(this.element);
+		while (p) {
+			if (p && p.$onDownKey) {
+				p.$onRightKey(this.element);
+				break;
+			}
+			p = p.parentNode;
+		}
 	}
 
 	$onUpKey(node?)
@@ -291,8 +305,15 @@ class View
 				}
 			}
 		}
+
 		var p:any = this.element.parentNode;
-		if (p && p.$onUpKey) p.$onUpKey(this.element);
+		while (p) {
+			if (p && p.$onDownKey) {
+				p.$onUpKey(this.element);
+				break;
+			}
+			p = p.parentNode;
+		}
 	}
 
 	$onDownKey(node?)
@@ -312,8 +333,15 @@ class View
 				}
 			}
 		}
+
 		var p:any = this.element.parentNode;
-		if (p && p.$onDownKey) p.$onDownKey(this.element);
+		while (p) {
+			if (p && p.$onDownKey) {
+				p.$onDownKey(this.element);
+				break;
+			}
+			p = p.parentNode;
+		}
 	}
 
 	$onEnterKey()

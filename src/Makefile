@@ -11,6 +11,7 @@ TS_FILES=Core.ts \
 	Ajax.ts \
 	Carousel.ts \
 	List.ts \
+	Grid.ts \
 	Style.ts \
 	Meta.ts \
 	Bao.ts
