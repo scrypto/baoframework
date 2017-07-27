@@ -86,6 +86,10 @@ class View
 
 	$focus()
 	{
+		if (this.element.getAttribute("data-focus") === "nofocus") {
+			return false;
+		}
+
 		var f = Core().Focus;
 		var n:any = this.element.firstChild;
 		while (n) {
@@ -98,14 +102,11 @@ class View
 			n = n.nextSibling;
 		}
 
-		if (this.element.getAttribute("data-focus") !== "nofocus") {
-			if (!this.$hasClass("focused")) {
-				this.$addClass("focused");
-				this.$signal("$focus");
-			}
-			return true;
+		if (!this.$hasClass("focused")) {
+			this.$addClass("focused");
+			this.$signal("$focus");
 		}
-		return false;
+		return true;
 	}
 
 	$blur()
