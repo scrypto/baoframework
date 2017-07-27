@@ -33,7 +33,7 @@ class List extends View
 				"transition: transform 0.25s, opacity 0.1s;"
 			]);
 		} else {
-			Core().Style.$remove(".bao--carouselitem");
+			Core().Style.$remove(".bao--listitem");
 		}
 	}
 
