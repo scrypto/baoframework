@@ -14,3 +14,5 @@ I've not thought about this much, but I think if you take the Bao directoy that 
 created in the "node_modules" directory and dump it in the equivalent directory of your
 project - it should maybe work.
 
+An update, the framework is now in npmjs, the binary repo for the framework is at
+https://github.com/BaoFramework/bao-framework
