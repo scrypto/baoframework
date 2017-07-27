@@ -50,6 +50,39 @@ class Grid extends View
 		Core().parseDOM(this.element);
 	}
 
+	$setData(data)
+	{
+		if (data) {
+			let rows = -1;
+			let cols = -1;
+			if (data["rows"]) rows = data["rows"];
+			if (data["cols"]) cols = data["cols"];
+
+			if (rows > -1 && cols > -1) {
+				this.numRows = rows;
+				this.numCols = cols;
+				this.$createTiles();
+			}
+
+			if (data["content"]) {
+				let len = data["content"].length;
+				let divs = this.element.getElementsByTagName("div");
+				if (len > divs.length) len = divs.length;
+				for (let i = 0; i < len; i++) {
+					let entry = data["content"][i];
+					this.$setTileContent(divs[i], entry);
+				}
+			}
+		}
+	}
+
+	$setTileContent(element, data?)
+	{
+		if (data && data["innerHTML"]) {
+			element.innerHTML = data["innerHTML"];
+		}
+	}
+
 	onTileAction(e)
 	{
 		this.$signal("$action", e.sender);
