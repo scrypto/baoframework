@@ -9,12 +9,16 @@ class Grid extends View
 	numCols:number;
 	rowHeight:number;
 	colWidth:number;
+	rowIndex:number;
+	colIndex:number;
 	obtype = "grid";
 	constructor()
 	{
 		super();
 		this.numRows = 10;
 		this.numCols = 10;
+		this.rowIndex = 0;
+		this.colIndex = 0;
 	}
 
 	$createContent()
@@ -27,6 +31,8 @@ class Grid extends View
 	{
 		let id = this.element.getAttribute("id");
 
+		this.element.innerHTML = "";
+
 		for (let row = 0; row < this.numRows; row++) {
 			for (let col = 0; col < this.numCols; col++) {
 				let div = document.createElement("div");
@@ -35,12 +41,71 @@ class Grid extends View
 				div.setAttribute("data-type", "view");
 				div.style.display = "inline-block";
 				div.style.position = "relative";
+				div.addEventListener("$action", this.onTileAction);
 				this.element.appendChild(div);
 			}
 			let br = document.createElement("br");
 			this.element.appendChild(br);
 		}
 		Core().parseDOM(this.element);
+	}
+
+	onTileAction(e)
+	{
+		this.signal("$action", e.sender);
+	}
+
+	$focus()
+	{
+		this._updateFocus();
+		return true;
+	}
+
+	$onDownKey(node?)
+	{
+		if (this.rowIndex === this.numRows - 1) {
+			super.$onDownKey(this.element);
+		} else {
+			this.rowIndex++;
+			this._updateFocus();
+		}
+	}
+
+	$onUpKey(node?)
+	{
+		if (this.rowIndex === 0) {
+			super.$onUpKey(this.element);
+		} else {
+			this.rowIndex--;
+			this._updateFocus();
+		}
+	}
+
+	$onLeftKey(node?)
+	{
+		if (this.colIndex === 0) {
+			super.$onLeftKey(this.element);
+		} else {
+			this.colIndex--;
+			this._updateFocus();
+		}
+	}
+
+	$onRightKey(node?)
+	{
+		if (this.colIndex === this.numCols - 1) {
+			super.$onRightKey(this.element);
+		} else {
+			this.colIndex++;
+			this._updateFocus();
+		}
+	}
+
+	_updateFocus()
+	{
+		let i = this.rowIndex * (this.numCols + 1) + this.colIndex;
+		let focus:any = Core().Focus;
+		focus.$set(this.element.children[i]);
 	}
 }
 
