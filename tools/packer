@@ -392,7 +392,6 @@ class JavaScriptPacker {
 	// NOTE ! : without the ';' final.
 	const JSFUNCTION_unpack =
 
-//'function($s, $wchars, $index, $translate, $cencode, $hdecode) {
 'function($B, $Achars, $Oindex, $Ftranslate, $rencode, $adecode, $m, $e, $w, $o, $ri, $k) {
 	while ($Ftranslate[--$Oindex]) $B=$B.replace(new RegExp("\\\\b"+$rencode($Oindex)+"\\\\b","g"), $Ftranslate[$Oindex]);return $B;
 }';
