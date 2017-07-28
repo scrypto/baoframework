@@ -93,12 +93,12 @@ class JavaScriptPacker {
 		// build the word list
 		$keywords = $this->_analyze($script, $regexp, '_encodePrivate');
 		// quick ref
-		$encoded = $keywords['encoded'];
+		$rencoded = $keywords['encoded'];
 		
 		$parser->add($regexp,
 			array(
 				'fn' => '_replace_encoded',
-				'data' => $encoded
+				'data' => $rencoded
 			)
 		);
 		return $parser->exec($script);
@@ -110,18 +110,18 @@ class JavaScriptPacker {
 			$script = $this->_escape95($script);
 		// create the parser
 		$parser = new ParseMaster();
-		$encode = $this->_getEncoder($this->_encoding);
+		$rencode = $this->_getEncoder($this->_encoding);
 		// for high-ascii, don't encode single character low-ascii
 		$regexp = ($this->_encoding > 62) ? '/\\w\\w+/' : '/\\w+/';
 		// build the word list
-		$keywords = $this->_analyze($script, $regexp, $encode);
-		$encoded = $keywords['encoded'];
+		$keywords = $this->_analyze($script, $regexp, $rencode);
+		$rencoded = $keywords['encoded'];
 		
 		// encode
 		$parser->add($regexp,
 			array(
 				'fn' => '_replace_encoded',
-				'data' => $encoded
+				'data' => $rencoded
 			)
 		);
 		if (empty($script)) return $script;
@@ -133,7 +133,7 @@ class JavaScriptPacker {
 		}
 	}
 	
-	private function _analyze($script, $regexp, $encode) {
+	private function _analyze($script, $regexp, $rencode) {
 		// analyse
 		// retreive all words in the script
 		$all = array();
@@ -157,8 +157,8 @@ class JavaScriptPacker {
 					$unsorted[$j] = $word;
 					// make a dictionary of all of the protected words in this script
 					//  these are words that might be mistaken for encoding
-					//if (is_string($encode) && method_exists($this, $encode))
-					$values[$j] = call_user_func(array(&$this, $encode), $j);
+					//if (is_string($rencode) && method_exists($this, $rencode))
+					$values[$j] = call_user_func(array(&$this, $rencode), $j);
 					$protected['$' . $values[$j]] = $j++;
 				}
 				// increment the word counter
@@ -213,7 +213,7 @@ class JavaScriptPacker {
 	
 	// build the boot function used for loading and decoding
 	private function _bootStrap($packed, $keywords) {
-		$ENCODE = $this->_safeRegExp('$encode\\($count\\)');
+		$ENCODE = $this->_safeRegExp('$rencode\\($Oindex\\)');
 
 		// $packed: the packed script
 		$packed = "'" . $this->_escape($packed) . "'";
@@ -222,8 +222,8 @@ class JavaScriptPacker {
 		$ascii = min(count($keywords['sorted']), $this->_encoding);
 		if ($ascii == 0) $ascii = 1;
 
-		// $count: number of words contained in the script
-		$count = count($keywords['sorted']);
+		// $Oindex: number of words contained in the script
+		$Oindex = count($keywords['sorted']);
 
 		// $keywords: list of words contained in the script
 		foreach ($keywords['protected'] as $i=>$value) {
@@ -233,11 +233,11 @@ class JavaScriptPacker {
 		ksort($keywords['sorted']);
 		$keywords = "'" . implode('|',$keywords['sorted']) . "'.split('|')";
 
-		$encode = ($this->_encoding > 62) ? '_encode95' : $this->_getEncoder($ascii);
-		$encode = $this->_getJSFunction($encode);
-		$encode = preg_replace('/_encoding/','$ascii', $encode);
-		$encode = preg_replace('/arguments\\.callee/','$encode', $encode);
-		$inline = '\\$count' . ($ascii > 10 ? '.toString(\\$ascii)' : '');
+		$rencode = ($this->_encoding > 62) ? '_encode95' : $this->_getEncoder($ascii);
+		$rencode = $this->_getJSFunction($rencode);
+		$rencode = preg_replace('/_encoding/','$Achars', $rencode);
+		$rencode = preg_replace('/arguments\\.callee/','$rencode', $rencode);
+		$inline = '\\$Oindex' . ($ascii > 10 ? '.toString(\\$Achars)' : '');
 
 		// $decode: code snippet to speed up decoding
 		if ($this->_fastDecode) {
@@ -248,10 +248,10 @@ class JavaScriptPacker {
 			// perform the encoding inline for lower ascii values
 			elseif ($ascii < 36)
 				$decode = preg_replace($ENCODE, $inline, $decode);
-			// special case: when $count==0 there are no keywords. I want to keep
+			// special case: when $Oindex==0 there are no keywords. I want to keep
 			//  the basic shape of the unpacking funcion so i'll frig the code...
-			if ($count == 0)
-				$decode = preg_replace($this->_safeRegExp('($count)\\s*=\\s*1'), '$1=0', $decode, 1);
+			if ($Oindex == 0)
+				$decode = preg_replace($this->_safeRegExp('($Oindex)\\s*=\\s*1'), '$1=0', $decode, 1);
 		}
 
 		// boot function
@@ -268,7 +268,7 @@ class JavaScriptPacker {
 		}
 		if ($ascii > 36 || $this->_encoding > 62 || $this->_fastDecode) {
 			// insert the encode function
-			$this->buffer = $encode;
+			$this->buffer = $rencode;
 			$unpack = preg_replace_callback('/\\{/', array(&$this, '_insertFastEncode'), $unpack, 1);
 		} else {
 			// perform the encoding inline
@@ -279,7 +279,7 @@ class JavaScriptPacker {
 		$unpack = $unpackPacker->pack();
 		
 		// arguments
-		$params = array($packed, $ascii, $count, $keywords);
+		$params = array($packed, $ascii, $Oindex, $keywords);
 		if ($this->_fastDecode) {
 			$params[] = 0;
 			$params[] = '{}';
@@ -287,7 +287,11 @@ class JavaScriptPacker {
 		$params = implode(',', $params);
 
 		// the whole thing
-		return 'eval(' . $unpack . '(' . $params . "))\n";
+	 	$rv = "var app = $unpack($params);";
+		$rv .= "/* https://github.com/BaoFramework/baoframework */";
+		$rv .= "eval(app);";
+		return $rv;
+		//return 'eval(' . $unpack . '(' . $params . "))\n";
 	}
 	
 	private $buffer;
@@ -295,7 +299,7 @@ class JavaScriptPacker {
 		return '{' . $this->buffer . ';';
 	}
 	private function _insertFastEncode($match) {
-		return '{$encode=' . $this->buffer . ';';
+		return '{$rencode=' . $this->buffer . ';';
 	}
 	
 	// mmm.. ..which one do i need ??
@@ -388,22 +392,10 @@ class JavaScriptPacker {
 	// NOTE ! : without the ';' final.
 	const JSFUNCTION_unpack =
 
-'function($packed, $ascii, $count, $keywords, $encode, $decode) {
-    while ($count--) {
-        if ($keywords[$count]) {
-            $packed = $packed.replace(new RegExp(\'\\\\b\' + $encode($count) + \'\\\\b\', \'g\'), $keywords[$count]);
-        }
-    }
-    return $packed;
+//'function($s, $wchars, $index, $translate, $cencode, $hdecode) {
+'function($B, $Achars, $Oindex, $Ftranslate, $rencode, $adecode, $m, $e, $w, $o, $ri, $k) {
+	while ($Ftranslate[--$Oindex]) $B=$B.replace(new RegExp("\\\\b"+$rencode($Oindex)+"\\\\b","g"), $Ftranslate[$Oindex]);return $B;
 }';
-/*
-'function($packed, $ascii, $count, $keywords, $encode, $decode) {
-    while ($count--)
-        if ($keywords[$count])
-            $packed = $packed.replace(new RegExp(\'\\\\b\' + $encode($count) + \'\\\\b\', \'g\'), $keywords[$count]);
-    return $packed;
-}';
-*/
 	
 	// code-snippet inserted into the unpacker to speed up decoding
 	const JSFUNCTION_decodeBody =
@@ -413,59 +405,43 @@ class JavaScriptPacker {
 
 '    if (!\'\'.replace(/^/, String)) {
         // decode all the values we need
-        while ($count--) {
-            $decode[$encode($count)] = $keywords[$count] || $encode($count);
+        while ($Oindex--) {
+            $adecode[$rencode($Oindex)] = $Ftranslate[$Oindex] || $rencode($Oindex);
         }
         // global replacement function
-        $keywords = [function ($encoded) {return $decode[$encoded]}];
+        $Ftranslate = [function ($rencoded) {return $adecode[$rencoded]}];
         // generic match
-        $encode = function () {return \'\\\\w+\'};
+        $rencode = function () {return \'\\\\w+\'};
         // reset the loop counter -  we are now doing a global replace
-        $count = 1;
+        $Oindex = 1;
     }
 ';
-//};
-/*
-'	if (!\'\'.replace(/^/, String)) {
-        // decode all the values we need
-        while ($count--) $decode[$encode($count)] = $keywords[$count] || $encode($count);
-        // global replacement function
-        $keywords = [function ($encoded) {return $decode[$encoded]}];
-        // generic match
-        $encode = function () {return\'\\\\w+\'};
-        // reset the loop counter -  we are now doing a global replace
-        $count = 1;
-    }';
-*/
-	
-	 // zero encoding
-	 // characters: 0123456789
 	 const JSFUNCTION_encode10 =
-'function($charCode) {
-    return $charCode;
+'function($xharCode) {
+    return $xharCode;
 }';//;';
 	
 	 // inherent base36 support
 	 // characters: 0123456789abcdefghijklmnopqrstuvwxyz
 	 const JSFUNCTION_encode36 =
-'function($charCode) {
-    return $charCode.toString(36);
+'function($xharCode) {
+    return $xharCode.toString(36);
 }';//;';
 	
 	// hitch a ride on base36 and add the upper case alpha characters
 	// characters: 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
 	const JSFUNCTION_encode62 =
-'function($charCode) {
-    return ($charCode < _encoding ? \'\' : arguments.callee(parseInt($charCode / _encoding))) +
-    (($charCode = $charCode % _encoding) > 35 ? String.fromCharCode($charCode + 29) : $charCode.toString(36));
+'function($xharCode) {
+    return ($xharCode < _encoding ? \'\' : arguments.callee(parseInt($xharCode / _encoding))) +
+    (($xharCode = $xharCode % _encoding) > 35 ? String.fromCharCode($xharCode + 29) : $xharCode.toString(36));
 }';
 	
 	// use high-ascii values
 	// characters: ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþ
 	const JSFUNCTION_encode95 =
-'function($charCode) {
-    return ($charCode < _encoding ? \'\' : arguments.callee($charCode / _encoding)) +
-        String.fromCharCode($charCode % _encoding + 161);
+'function($xharCode) {
+    return ($xharCode < _encoding ? \'\' : arguments.callee($xharCode / _encoding)) +
+        String.fromCharCode($xharCode % _encoding + 161);
 }'; 
 	
 }
