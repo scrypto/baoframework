@@ -216,14 +216,17 @@ class View
 	$setData(data)
 	{
 		if (data) {
-			if (data["innerHTML"]) {
+			if (typeof data == "string" || data["innerHTML"]) {
 				this.element.innerHTML = data["innerHTML"];
+				Core().parseDOM(this.element);
 			} else if (data["addClass"]) {
 				this.element.classList.add(data["addClass"]);
 			} else if (data["removeClass"]) {
 				this.element.classList.remove(data["removeClass"]);
-			} else if ("string" == typeof data) {
-				this.element.innerHTML = data;
+			} else if (data["innerTEXT"]) {
+				let t = document.createTextNode(data["innerTEXT"]);
+				this.element.innerHTML = "";
+				this.element.appendChild(t);
 			}
 		}
 	}
