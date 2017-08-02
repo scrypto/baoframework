@@ -205,9 +205,11 @@ let CoreImpl = {
 		if (!type) type = id;
 		if (!tag) tag = "object";
 		let obj = document.createElement(tag);
-		obj.style.width = "0px"; obj.style.height = "0px";
-		obj.style.left = "0px"; obj.style.right = "0px";
-		obj.style.opacity = "0"; obj.style.position = "fixed";
+		if (obj.style) {
+			obj.style.width = "0px"; obj.style.height = "0px";
+			obj.style.left = "0px"; obj.style.right = "0px";
+			obj.style.opacity = "0"; obj.style.position = "fixed";
+		}
 		obj.setAttribute("id", id);
 		obj.setAttribute("data-type", type);
 		return obj;
