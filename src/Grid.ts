@@ -7,10 +7,9 @@ class Grid extends View
 	translations:any;
 	numRows:number;
 	numCols:number;
-	rowHeight:number;
-	colWidth:number;
 	rowIndex:number;
 	colIndex:number;
+	tileType:string;
 	obtype = "grid";
 	constructor()
 	{
@@ -19,6 +18,7 @@ class Grid extends View
 		this.numCols = 10;
 		this.rowIndex = 0;
 		this.colIndex = 0;
+		this.tileType = "view";
 	}
 
 	$createContent()
@@ -38,7 +38,7 @@ class Grid extends View
 				let div = document.createElement("div");
 				div.setAttribute("id", id + "_tile_" + col + "x" + row);
 				div.setAttribute("class", "bao--griditem");
-				div.setAttribute("data-type", "view");
+				div.setAttribute("data-type", this.tileType);
 				div.style.display = "inline-block";
 				div.style.position = "relative";
 				div.addEventListener("$action", this.onTileAction);
