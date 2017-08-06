@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BaoFramework/bao-framework.git"
+    "url": "git+https://github.com/BaoFramework/baoframework.git"
   },
   "bin": {
     "baopack": "./tools/packer"
@@ -34,8 +34,8 @@
   "author": "Bao.Bao@asia.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/BaoFramework/bao-framework/issues"
+    "url": "https://github.com/BaoFramework/baoframework/issues"
   },
-  "homepage": "https://github.com/BaoFramework/bao-framework#readme",
+  "homepage": "https://github.com/BaoFramework/baoframework#readme",
   "dependencies": {}
 }
