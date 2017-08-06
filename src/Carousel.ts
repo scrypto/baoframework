@@ -1,5 +1,5 @@
-import View from "bao-framework/View"
-import Core from "bao-framework/Core"
+import View from "./View"
+import Core from "./Core"
 
 class Carousel extends View
 {

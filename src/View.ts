@@ -1,4 +1,4 @@
-import Core from "bao-framework/Core"
+import Core from "./Core"
 
 class View
 {

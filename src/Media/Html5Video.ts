@@ -1,12 +1,12 @@
-import Core from "bao-framework/Core"
-import BaseVideo from "./BaseVideo"
+import Core from "../Core";
+import BaseVideo from "./BaseVideo";
 
 class Html5Video extends BaseVideo
 {
-	canplay:boolean;
-	canplaythrough:boolean;
-	playpending:boolean;
-	offsetpending:any;
+	canplay: boolean;
+	canplaythrough: boolean;
+	playpending: boolean;
+	offsetpending: any;
 	constructor()
 	{
 		super();
@@ -61,13 +61,13 @@ class Html5Video extends BaseVideo
 
 		this.playpending = false;
 
-		let e:HTMLVideoElement = (this.element as any);
+		const e: HTMLVideoElement = (this.element as any);
 		e.play();
 	}
 
 	$pause()
 	{
-		let e:HTMLVideoElement = (this.element as any);
+		const e: HTMLVideoElement = (this.element as any);
 		e.pause();
 	}
 
@@ -79,13 +79,13 @@ class Html5Video extends BaseVideo
 		}
 
 		this.offsetpending = false;
-		let e:HTMLVideoElement = (this.element as any);
+		const e: HTMLVideoElement = (this.element as any);
 		e.currentTime = offset / 1000;
 	}
 
 	$stop()
 	{
-		let e:HTMLVideoElement = (this.element as any);
+		const e: HTMLVideoElement = (this.element as any);
 		e.pause();
 		e.currentTime = 0;
 	}
@@ -96,7 +96,7 @@ class Html5Video extends BaseVideo
 	_onEvent(e)
 	{
 		this.isPaused = false;
-		if (e.type == "pause") this.isPaused = true;
+		if (e.type === "pause") this.isPaused = true;
 
 		this.$signal("$" + e.type);
 	}
@@ -127,14 +127,14 @@ class Html5Video extends BaseVideo
 
 	_onDurationChange()
 	{
-		let e:HTMLVideoElement = (this.element as any);
+		const e: HTMLVideoElement = (this.element as any);
 		this.duration = e.duration;
 		this.$signal("$durationchange");
 	}
 
 	_onTimeUpdate()
 	{
-		let e:HTMLVideoElement = (this.element as any);
+		const e: HTMLVideoElement = (this.element as any);
 		this.currentTime = e.currentTime;
 		this.duration = e.duration;
 		this.$signal("$timeupdate");

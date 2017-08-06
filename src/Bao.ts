@@ -1,7 +1,7 @@
-import "bao-framework/Style"
-import "bao-framework/DataStore"
-import "bao-framework/Focus"
-import "bao-framework/Meta"
+import "./Style"
+import "./DataStore"
+import "./Focus"
+import "./Meta"
 
 let $ = (id:string):any => document.getElementById($["prefix"]+id);
 $["prefix"] = "";

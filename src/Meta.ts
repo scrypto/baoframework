@@ -1,5 +1,5 @@
-import Core from "bao-framework/Core"
-import View from "bao-framework/View"
+import Core from "./Core"
+import View from "./View"
 
 class Meta extends View
 {

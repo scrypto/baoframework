@@ -1,5 +1,5 @@
-import Core from "bao-framework/Core"
-import BaseVideo from "./BaseVideo"
+import Core from "../Core";
+import BaseVideo from "./BaseVideo";
 
 class HbbTVVideo extends BaseVideo
 {
@@ -21,7 +21,7 @@ class HbbTVVideo extends BaseVideo
 		this.canplay = false;
 		this.timeUpdateInterval = false;
 
-		let e:any = this.element;
+		const e:any = this.element;
 		e.setAttribute("type", type);
 		e.type = type;
 		e.setAttribute("data", url);
@@ -34,25 +34,25 @@ class HbbTVVideo extends BaseVideo
 
 	$play()
 	{
-		let e:any = this.element;
+		const e:any = this.element;
 		e.play(1);
 	}
 
 	$pause()
 	{
-		let e:any = this.element;
+		const e:any = this.element;
 		e.play(0);
 	}
 
 	$seek(offset)
 	{
-		let e:any = this.element;
+		const e:any = this.element;
 		e.seek(offset);
 	}
 
 	$stop()
 	{
-		let e:any = this.element;
+		const e:any = this.element;
 		e.stop();
 	}
 
@@ -60,7 +60,7 @@ class HbbTVVideo extends BaseVideo
 	{
 		this.isPaused = false;
 
-		let e:any = this.element;
+		const e:any = this.element;
 		switch (e.playState) {
 			case 0: // unrealised
 				this.$signal("$stopped");
@@ -104,7 +104,7 @@ class HbbTVVideo extends BaseVideo
 	stopTimeUpdateInterval()
 	{
 		if (this.timeUpdateInterval) {
-			let i = this.timeUpdateInterval;
+			const i = this.timeUpdateInterval;
 			this.timeUpdateInterval = null;
 			window.clearInterval(i);
 		}
@@ -112,7 +112,7 @@ class HbbTVVideo extends BaseVideo
 
 	onTimeUpdate()
 	{
-		let e:any = this.element;
+		const e:any = this.element;
 		this.currentTime = e.playPosition / 1000;
 		this.duration = e.playTime / 1000;
 		this.$signal("$timeupdate");

@@ -4,13 +4,29 @@ Released under the MIT license. See LICENSE for details
 
 Compiling:
 
-This project uses make, tsc (typescript command line), browserify, uglifyjs, php (cli)
-It is up to you as a smart individual to get these into your build system.
-Once done, just run make in the top level directory (and all should be good).
+This probject uses npm as its build system (after a request by a customer - yes someone is using it).
+
+
+To build the framework:
+
+npm install
+
+	This will install the required tools
+
+
+npm run build
+
+	This will build the framework. The compiled code will be in node_modules/bao-framework
+
+
+npm run clean
+
+	This will delete the compiled files from the directory tree
+
 
 Including the framework in other projects:
 
-I've not thought about this much, but I think if you take the Bao directoy that is
+I've not thought about this much, but I think if you take the bao-framework directoy that is
 created in the "node_modules" directory and dump it in the equivalent directory of your
 project - it should maybe work.
 

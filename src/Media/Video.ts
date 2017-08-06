@@ -1,2 +1,2 @@
-import "./Html5Video"
-import "./HbbTVVideo"
+import "./Html5Video";
+import "./HbbTVVideo";

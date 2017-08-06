@@ -1,0 +1,41 @@
+{
+  "name": "bao-framework",
+  "version": "1.0.13",
+  "description": "A lightweight framework from Thailand",
+  "main": "Bao.js",
+  "types": "Bao.d.js",
+  "scripts": {
+    "build": "npm-run-all lint compile",
+    "lint": "tslint src/**/*ts",
+    "compile": "mkdir -p node_modules/bao-framework && tsc -t ES3 --baseUrl node_modules --outDir node_modules/bao-framework `find src -name *.ts`",
+    "clean": "rm -rf node_modules/bao-framework",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BaoFramework/bao-framework.git"
+  },
+  "bin": {
+    "baopack": "./tools/packer"
+  },
+  "keywords": [
+    "framework",
+    "typescript",
+    "javascript",
+    "bao"
+  ],
+  "devDependencies": {
+    "browserify": "^14.4.0",
+    "stringify": "^5.1.0",
+    "tslint": "^5.5.0",
+    "typescript": "^2.4.2",
+    "npm-run-all": "^4.0.2"
+  },
+  "author": "Bao.Bao@asia.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BaoFramework/bao-framework/issues"
+  },
+  "homepage": "https://github.com/BaoFramework/bao-framework#readme",
+  "dependencies": {}
+}

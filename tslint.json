@@ -1,8 +1,39 @@
 {
-	"rules": {
-		"indent": [ true, "tabs" ],
-		"curly": [ true, "ignore-same-line" ],
-		"one-line": [ true, "check-catch", "check-finally",
-					"check-else", "check-whitespace" ]
-	}
+  "extends": "tslint:recommended",
+  "rules": {
+    "member-access": false,
+    "no-empty": false,
+    "curly": [true, "ignore-same-line"],
+    "ordered-imports": [
+      false
+    ],
+    "no-string-literal": false,
+    "no-console": [
+      false
+    ],
+    "object-literal-sort-keys": false,
+    "max-classes-per-file": [false],
+    "one-line": [
+      "check-catch",
+      "check-finally",
+      "check-whitespace",
+      "check-else"
+    ],
+    "indent": [ true, "tabs" ],
+    "typedef-whitespace": [
+      true,
+      {
+        "variable-declaration": "nospace",
+        "property-declaration": "nospace",
+        "parameter": "onespace"
+      }
+    ],
+    "whitespace": [
+      true,
+      "check-branch",
+      "check-decl",
+      "check-operator",
+      "check-separator"
+    ]
+  }
 }

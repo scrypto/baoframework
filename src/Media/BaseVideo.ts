@@ -1,12 +1,12 @@
-import View from "bao-framework/View"
+import View from "../View";
 
 class BaseVideo extends View
 {
-	currentTime:number;
-	duration:number;
-	url:string;
-	type:string;
-	isPaused:boolean;
+	currentTime: number;
+	duration: number;
+	url: string;
+	type: string;
+	isPaused: boolean;
 	obtype = "video";
 
 	constructor()
@@ -57,10 +57,10 @@ class BaseVideo extends View
 
 	_secondsToTime(totalSeconds)
 	{
-		let hours = Math.floor(totalSeconds / 3600);
+		const hours = Math.floor(totalSeconds / 3600);
 		totalSeconds %= 3600;
-		let minutes = Math.floor(totalSeconds / 60);
-		let seconds = Math.floor(totalSeconds % 60);
+		const minutes = Math.floor(totalSeconds / 60);
+		const seconds = Math.floor(totalSeconds % 60);
 
 		return (hours ? hours + ":" : "") +
 			(hours && minutes < 10 ? "0" : "") + minutes + ":" +
@@ -82,6 +82,7 @@ class BaseVideo extends View
 	$stop()
 	{
 	}
+
 }
 
 export default BaseVideo;
