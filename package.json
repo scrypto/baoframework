@@ -2,12 +2,12 @@
   "name": "bao-framework",
   "version": "1.0.13",
   "description": "A lightweight framework from Thailand",
-  "main": "dist/Bao.js",
-  "types": "dist/Bao.d.ts",
+  "main": "./dist/Bao.js",
+  "types": "./dist/Bao.d.ts",
   "scripts": {
     "build": "npm-run-all lint compile",
     "lint": "tslint src/**/*ts",
-    "compile": "mkdir -p dist && tsc -t ES3 --baseUrl dist --outDir dist `find src -name *.ts`",
+    "compile": "tsc",
     "clean": "rimraf dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
