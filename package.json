@@ -9,7 +9,7 @@
     "lint": "tslint src/**/*ts",
     "compile": "mkdir -p node_modules/bao-framework && tsc -t ES3 --baseUrl node_modules --outDir node_modules/bao-framework `find src -name *.ts`",
     "clean": "rm -rf node_modules/bao-framework",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run lint"
   },
   "repository": {
     "type": "git",
