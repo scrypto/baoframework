@@ -31,7 +31,7 @@
     "typescript": "^2.4.2",
     "npm-run-all": "^4.0.2"
   },
-  "author": "Bao.Bao@asia.com",
+  "author": "github@switch.tv",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/BaoFramework/baoframework/issues"
