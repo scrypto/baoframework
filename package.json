@@ -10,7 +10,7 @@
     "compile": "tsc",
     "clean": "rimraf dist",
     "test": "npm run lint",
-    "prePublish": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
