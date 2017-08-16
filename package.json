@@ -2,18 +2,19 @@
   "name": "bao-framework",
   "version": "1.0.13",
   "description": "A lightweight framework from Thailand",
-  "main": "Bao.js",
-  "types": "Bao.d.js",
+  "main": "./dist/Bao.js",
+  "types": "./dist/Bao.d.ts",
   "scripts": {
     "build": "npm-run-all lint compile",
     "lint": "tslint src/**/*ts",
-    "compile": "mkdir -p node_modules/bao-framework && tsc -t ES3 --baseUrl node_modules --outDir node_modules/bao-framework `find src -name *.ts`",
-    "clean": "rm -rf node_modules/bao-framework",
-    "test": "npm run lint"
+    "compile": "tsc",
+    "clean": "rimraf dist",
+    "test": "npm run lint",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BaoFramework/baoframework.git"
+    "url": "git+https://github.com/Switch-Media/baoframework.git"
   },
   "bin": {
     "baopack": "./tools/packer"
@@ -29,13 +30,13 @@
     "stringify": "^5.1.0",
     "tslint": "^5.5.0",
     "typescript": "^2.4.2",
+    "rimraf": "^2.6.1",
     "npm-run-all": "^4.0.2"
   },
   "author": "github@switch.tv",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/BaoFramework/baoframework/issues"
+    "url": "https://github.com/Switch-Media/baoframework/issues"
   },
-  "homepage": "https://github.com/BaoFramework/baoframework#readme",
-  "dependencies": {}
+  "homepage": "https://github.com/Switch-Media/baoframework#readme"
 }
