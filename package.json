@@ -9,7 +9,8 @@
     "lint": "tslint src/**/*ts",
     "compile": "tsc",
     "clean": "rimraf dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run lint",
+    "prePublish": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -32,7 +33,7 @@
     "rimraf": "^2.6.1",
     "npm-run-all": "^4.0.2"
   },
-  "author": "Bao.Bao@asia.com",
+  "author": "github@switch.tv",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Switch-Media/baoframework/issues"
