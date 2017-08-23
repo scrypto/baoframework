@@ -3,10 +3,8 @@ import "./DataStore"
 import "./Focus"
 import "./Meta"
 
-let $ = (id:string):any => document.getElementById($["prefix"]+id);
+export const $ = (id:string):any => document.getElementById($["prefix"]+id);
 $["prefix"] = "";
-
-export default $
 
 export {default as Ajax} from "./Ajax";
 export {default as Carousel} from "./Carousel";
