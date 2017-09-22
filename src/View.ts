@@ -353,6 +353,11 @@ class View
 		this.$signal("$action");
 	}
 
+	$onBackKey()
+	{
+		this.$signal("$back");
+	}
+
 	$setOrientation(orientation)
 	{
 		this.orientation = orientation;
