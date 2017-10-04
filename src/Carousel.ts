@@ -123,7 +123,8 @@ class Carousel extends View
 					child.style.visibility = "";
 					child.style.opacity = "1";
 					if (this.focusIndex === i) {
-						child.setAttribute("class", "bao--carouselitem focused");
+						if (child.$addClass) child.$addClass("focused");
+						else child.setAttribute("class", "bao--carouselitem focused");
 					}
 				}
 			}
@@ -148,7 +149,10 @@ class Carousel extends View
 				child.style.opacity = "1";
 				child.style.transform = "translateX(" + t + "px)";
 				child.style.webkitTransform = "translateX(" + t + "px)";
-				if (this.focusIndex === i) child.setAttribute("class","bao--carouselitem");
+				if (this.focusIndex === i) {
+					if (child.$removeClass) child.$removeClass("focused");
+					else child.setAttribute("class","bao--carouselitem");
+				}
 				this.translations[i] = t;
 				if (this.outerIndex === i) outer = child;
 			}
@@ -190,7 +194,10 @@ class Carousel extends View
 				child.style.opacity = "1";
 				child.style.transform = "translateX(" + t + "px)";
 				child.style.webkitTransform = "translateX(" + t + "px)";
-				if (this.focusIndex === i) child.setAttribute("class","bao--carouselitem");
+				if (this.focusIndex === i) {
+					if (child.$removeClass) child.$removeClass("focused");
+					else child.setAttribute("class","bao--carouselitem");
+				}
 				this.translations[i] = t;
 				if (this.outerIndex === i) outer = child;
 			}
@@ -231,9 +238,11 @@ class Carousel extends View
 		for (let i = 0; i < this.element.children.length; i++) {
 			let child:any = this.element.children[i];
 			if (this.focusIndex === i) {
-				child.setAttribute("class", "bao--carouselitem focused");
+				if (child.$addClass) child.$addClass("focused");
+				else child.setAttribute("class", "bao--carouselitem focused");
 			} else {
-				child.setAttribute("class", "bao--carouselitem");
+				if (child.$removeClass) child.$removeClass("focused");
+				else child.setAttribute("class", "bao--carouselitem");
 			}
 		}
 		return super.$focus();
@@ -243,7 +252,8 @@ class Carousel extends View
 	{
 		for (let i = 0; i < this.element.children.length; i++) {
 			let child:any = this.element.children[i];
-			child.setAttribute("class", "bao--carouselitem");
+			if (child.$removeClass) child.$removeClass("focused");
+			else child.setAttribute("class", "bao--carouselitem");
 		}
 		super.$blur();
 	}
