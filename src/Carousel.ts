@@ -5,6 +5,7 @@ class Carousel extends View
 {
 	tileWidth:number;
 	numTiles:number;
+	visibleTilesPerRow:number;
 	translationComplete:boolean;
 	translations:any;
 	index:number;
@@ -19,6 +20,7 @@ class Carousel extends View
 		super();
 		this.tileWidth = 300;
 		this.numTiles = 10;
+		this.visibleTilesPerRow = 0; // '0' means not specified
 		this.translations = [];
 		this.translationComplete = true;
 		this.index = 0;
@@ -43,6 +45,13 @@ class Carousel extends View
 		}
 
 		this.tileWidth = width;
+	}
+
+	$setVisibleTilesPerRow(value: number)
+	{
+		if (value) {
+			this.visibleTilesPerRow = value;
+		}
 	}
 
 	$setWrap(wrap:boolean)
@@ -133,7 +142,7 @@ class Carousel extends View
 
 	$goLeft()
 	{
-		if (!this.wrap && this.index+1 === this.numTiles) return;
+		if (!this.wrap && this.index + 1 === this.numTiles) return;
 
 		if (this.translationComplete === true) {
 			if (this.transform) this.translationComplete = false;
@@ -142,19 +151,25 @@ class Carousel extends View
 
 			let t = 0;
 			let outer = null;
-			this.outerIndex = (this.index-1) % this.numTiles;
-			for (let i = 0; i < this.element.children.length; i++) {
-				let child:any = this.element.children[i];
-				t = this.translations[i] - this.tileWidth;
-				child.style.opacity = "1";
-				child.style.transform = "translateX(" + t + "px)";
-				child.style.webkitTransform = "translateX(" + t + "px)";
-				if (this.focusIndex === i) {
-					if (child.$removeClass) child.$removeClass("focused");
-					else child.setAttribute("class","bao--carouselitem");
+			this.outerIndex = (this.index - 1) % this.numTiles;
+			if (this.wrap ||
+				(this.numTiles - this.visibleTilesPerRow > this.focusIndex && this.focusIndex + 1 < this.numTiles)) {
+				for (let i = 0; i < this.element.children.length; i++) {
+					let child:any = this.element.children[i];
+					t = this.translations[i] - this.tileWidth;
+					child.style.opacity = "1";
+					child.style.transform = "translateX(" + t + "px)";
+					child.style.webkitTransform = "translateX(" + t + "px)";
+					this.translations[i] = t;
+					if (this.outerIndex === i) outer = child;
 				}
-				this.translations[i] = t;
-				if (this.outerIndex === i) outer = child;
+			}
+
+			const element:any = this.element.children[this.focusIndex];
+			if (element.$removeClass) {
+				element.$removeClass("focused");
+			} else {
+				element.setAttribute("class","bao--carouselitem");
 			}
 
 			if (outer && this.wrap) {
@@ -188,18 +203,23 @@ class Carousel extends View
 			let t = 0;
 			let outer = null;
 			this.outerIndex = this.index % this.numTiles;
-			for (let i = 0; i < this.element.children.length; i++) {
-				let child:any = this.element.children[i];
-				t = this.translations[i] + this.tileWidth;
-				child.style.opacity = "1";
-				child.style.transform = "translateX(" + t + "px)";
-				child.style.webkitTransform = "translateX(" + t + "px)";
-				if (this.focusIndex === i) {
-					if (child.$removeClass) child.$removeClass("focused");
-					else child.setAttribute("class","bao--carouselitem");
+			if (this.wrap || this.numTiles - this.visibleTilesPerRow >= this.focusIndex) {
+				for (let i = 0; i < this.element.children.length; i++) {
+					let child: any = this.element.children[i];
+					t = this.translations[i] + this.tileWidth;
+					child.style.opacity = "1";
+					child.style.transform = "translateX(" + t + "px)";
+					child.style.webkitTransform = "translateX(" + t + "px)";
+					this.translations[i] = t;
+					if (this.outerIndex === i) outer = child;
 				}
-				this.translations[i] = t;
-				if (this.outerIndex === i) outer = child;
+			}
+
+			const element:any = this.element.children[this.focusIndex];
+			if (element.$removeClass) {
+				element.$removeClass("focused");
+			} else {
+				element.setAttribute("class","bao--carouselitem");
 			}
 
 			if (outer && this.wrap) {
