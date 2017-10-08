@@ -33,7 +33,7 @@ class List extends View
 				"transition: transform 0.25s, opacity 0.1s;"
 			]);
 		} else {
-			Core().Style.$remove(".bao--listitem");
+			Core().Style.$removeStyle(".bao--listitem");
 		}
 	}
 
@@ -82,26 +82,29 @@ class List extends View
 			this.index++;
 			this.translationComplete = false;
 
-			let t = 0;
-			for (let i = 0; i < this.element.children.length; i++) {
-				let child:any = this.element.children[i];
+			if (this.element.scrollHeight > this.element.clientHeight) {
+				let t = 0;
+				for (let i = 0; i < this.element.children.length; i++) {
+					let child:any = this.element.children[i];
 
-				// FIXME: if we change this to use the height of the current row,
-				// we can have rows of varying height
-				if (this.rowHeight === 0) {
-					let box = child.getBoundingClientRect();
-					this.rowHeight = box.height;
+					// FIXME: if we change this to use the height of the current row,
+					// we can have rows of varying height
+					if (this.rowHeight === 0) {
+						let box = child.getBoundingClientRect();
+						this.rowHeight = box.height;
+					}
+
+					t = this.translations[i] - this.rowHeight;
+					child.style.opacity = "1";
+					child.style.transform = "translateY(" + t + "px)";
+					child.style.webkitTransform = "translateY(" + t + "px)";
+
+					this.translations[i] = t;
 				}
-
-				t = this.translations[i] - this.rowHeight;
-				child.style.opacity = "1";
-				child.style.transform = "translateY(" + t + "px)";
-				child.style.webkitTransform = "translateY(" + t + "px)";
-
-				this.translations[i] = t;
-			}
-
-			if (Core().MetaConfig.$get("animation") === "off") {
+				if (Core().MetaConfig.$get("animation") === "off") {
+					this.$transitionCompleted(null);
+				}
+			} else {
 				this.$transitionCompleted(null);
 			}
 		}
@@ -116,37 +119,58 @@ class List extends View
 			this.index--;
 			this.translationComplete = false;
 
-			let t = 0;
-			for (let i = 0; i < this.element.children.length; i++) {
-				let child:any = this.element.children[i];
+			if (this.translations[0] < 0) {
+				let t = 0;
+				for (let i = 0; i < this.element.children.length; i++) {
+					let child:any = this.element.children[i];
 
-				// FIXME: if we change this to use the height of the previous row,
-				// we can have rows of varying height
-				if (this.rowHeight === 0) {
-					let box = child.getBoundingClientRect();
-					this.rowHeight = box.height;
+					// FIXME: if we change this to use the height of the previous row,
+					// we can have rows of varying height
+					if (this.rowHeight === 0) {
+						let box = child.getBoundingClientRect();
+						this.rowHeight = box.height;
+					}
+
+					t = this.translations[i] + this.rowHeight;
+					child.style.opacity = "1";
+					child.style.transform = "translateY(" + t + "px)";
+					child.style.webkitTransform = "translateY(" + t + "px)";
+
+					this.translations[i] = t;
 				}
 
-				t = this.translations[i] + this.rowHeight;
-				child.style.opacity = "1";
-				child.style.transform = "translateY(" + t + "px)";
-				child.style.webkitTransform = "translateY(" + t + "px)";
-
-				this.translations[i] = t;
-			}
-
-			if (Core().MetaConfig.$get("animation") === "off") {
+				if (Core().MetaConfig.$get("animation") === "off") {
+					this.$transitionCompleted(null);
+				}
+			} else {
 				this.$transitionCompleted(null);
 			}
 		}
 		return true;
 	}
 
+	$blur()
+	{
+		let len = this.element.children.length;
+		for (let i = 0; i < len; i++) {
+			let child:any = this.element.children[i];
+			if ("function" === typeof child.$blur) child.$blur();
+		}
+	}
+
 	$focus()
 	{
+		let len = this.element.children.length;
+		for (let i = 0; i < len; i++) {
+			let child:any = this.element.children[i];
+			if (child && i !== this.index) {
+				if ("function" === typeof child.$blur) child.$blur();
+			}
+		}
+
 		let child:any = this.element.children[this.index];
 		if (child) {
-			if ("function" === typeof child.focus) {
+			if ("function" === typeof child.$focus) {
 				if (child.$focus()) return true;
 			}
 		}
@@ -161,6 +185,11 @@ class List extends View
 	$onUpKey()
 	{
 		if (!this.$goDown()) super.$onUpKey();
+	}
+
+	$onEnterKey()
+	{
+		this.$signal("$action", this.element.children[this.index]);
 	}
 }
 
