@@ -1,3 +1,6 @@
+export const $ = (id:string):any => document.getElementById($["prefix"]+id);
+$["prefix"] = "";
+
 let CoreImpl = {
 	Style: null,
 	Focus: null,
@@ -223,3 +226,8 @@ export default function Core(type?)
 }
 
 window.addEventListener("load", () => CoreImpl.setup());
+
+import "./Style"
+import "./DataStore"
+import "./Focus"
+import "./Meta"
