@@ -3,12 +3,9 @@ import "./DataStore"
 import "./Focus"
 import "./Meta"
 
-export const $ = (id:string):any => document.getElementById($["prefix"]+id);
-$["prefix"] = "";
-
 export {default as Ajax} from "./Ajax";
 export {default as Carousel} from "./Carousel";
-export {default as Core} from "./Core";
+export {$, default as Core} from "./Core";
 export {default as DataStore} from "./DataStore";
 export {default as Focus} from "./Focus";
 export {default as Grid} from "./Grid";
