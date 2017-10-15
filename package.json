@@ -1,6 +1,6 @@
 {
   "name": "baoframework",
-  "version": "1.0.19",
+  "version": "1.0.22",
   "description": "A lightweight framework from Thailand",
   "main": "./dist/Bao.js",
   "types": "./dist/Bao.d.ts",
