@@ -152,8 +152,7 @@ class Carousel extends View
 			let t = 0;
 			let outer = null;
 			this.outerIndex = (this.index - 1) % this.numTiles;
-			if (this.wrap ||
-				(this.numTiles - this.visibleTilesPerRow > this.focusIndex && this.focusIndex + 1 < this.numTiles)) {
+			if (this.wrap || (this.focusIndex + 1 >= this.visibleTilesPerRow)) {
 				for (let i = 0; i < this.element.children.length; i++) {
 					let child:any = this.element.children[i];
 					t = this.translations[i] - this.tileWidth;
@@ -182,10 +181,13 @@ class Carousel extends View
 				this.$repurposeOuter(outer, "left");
 			}
 
-			if (this.wrap) this.focusIndex = (this.index+1) % this.numTiles;
-			else this.focusIndex = this.index % this.numTiles;
-
-			if (Core().MetaConfig.$get("animation") === "off") {
+			if (this.wrap) {
+				this.focusIndex = (this.index+1) % this.numTiles;
+				if (Core().MetaConfig.$get("animation") === "off") {
+					this.$transitionCompleted(null);
+				}
+			} else {
+				this.focusIndex = this.index % this.numTiles;
 				this.$transitionCompleted(null);
 			}
 		}
@@ -203,7 +205,7 @@ class Carousel extends View
 			let t = 0;
 			let outer = null;
 			this.outerIndex = this.index % this.numTiles;
-			if (this.wrap || this.numTiles - this.visibleTilesPerRow >= this.focusIndex) {
+			if (this.wrap || (this.focusIndex >= this.visibleTilesPerRow)) {
 				for (let i = 0; i < this.element.children.length; i++) {
 					let child: any = this.element.children[i];
 					t = this.translations[i] + this.tileWidth;
@@ -232,10 +234,13 @@ class Carousel extends View
 				this.$repurposeOuter(outer, "right");
 			}
 
-			if (this.wrap) this.focusIndex = (this.index+1) % this.numTiles;
-			else this.focusIndex = this.index % this.numTiles;
-
-			if (Core().MetaConfig.$get("animation") === "off") {
+			if (this.wrap) {
+				this.focusIndex = (this.index+1) % this.numTiles;
+				if (Core().MetaConfig.$get("animation") === "off") {
+					this.$transitionCompleted(null);
+				}
+			} else {
+				this.focusIndex = this.index % this.numTiles;
 				this.$transitionCompleted(null);
 			}
 		}
