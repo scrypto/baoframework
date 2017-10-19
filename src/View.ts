@@ -348,6 +348,18 @@ class View
 		}
 	}
 
+	$onOtherKey(key:any)
+	{
+		var p:any = this.element.parentNode;
+		while (p) {
+			if (p && p.$onOtherKey) {
+				p.$onOtherKey(key);
+				break;
+			}
+			p = p.parentNode;
+		}
+	}
+
 	$onEnterKey()
 	{
 		this.$signal("$action");
