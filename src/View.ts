@@ -256,7 +256,7 @@ class View
 
 		var p:any = this.element.parentNode;
 		while (p) {
-			if (p && p.$onDownKey) {
+			if (p && p.$onLeftKey) {
 				p.$onLeftKey(this.element);
 				break;
 			}
@@ -284,7 +284,7 @@ class View
 
 		var p:any = this.element.parentNode;
 		while (p) {
-			if (p && p.$onDownKey) {
+			if (p && p.$onRightKey) {
 				p.$onRightKey(this.element);
 				break;
 			}
@@ -312,7 +312,7 @@ class View
 
 		var p:any = this.element.parentNode;
 		while (p) {
-			if (p && p.$onDownKey) {
+			if (p && p.$onUpKey) {
 				p.$onUpKey(this.element);
 				break;
 			}
@@ -342,6 +342,18 @@ class View
 		while (p) {
 			if (p && p.$onDownKey) {
 				p.$onDownKey(this.element);
+				break;
+			}
+			p = p.parentNode;
+		}
+	}
+
+	$onOtherKey(key:any)
+	{
+		var p:any = this.element.parentNode;
+		while (p) {
+			if (p && p.$onOtherKey) {
+				p.$onOtherKey(key);
 				break;
 			}
 			p = p.parentNode;
