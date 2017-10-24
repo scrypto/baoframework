@@ -15,6 +15,7 @@ class Carousel extends View
 	transform:boolean;
 	obtype = "carousel";
 	scrollStyle: number;
+	skipTranslation: boolean;
 
 	constructor()
 	{
@@ -30,6 +31,7 @@ class Carousel extends View
 		this.wrap = true;
 		this.transform = true;
 		this.scrollStyle = 1; // '1' means scroll first then move right, '2' means move right first then scroll.
+		this.skipTranslation = false;
 	}
 
 	$setTileWidth(width:number)
@@ -149,11 +151,20 @@ class Carousel extends View
 		}
 	}
 
+	$goLeftBy(amount: number)
+	{
+		this.skipTranslation = true;
+		for (let i = 0; i < amount; i++) {
+			this.$goLeft();
+		}
+		this.skipTranslation = false;
+	}
+
 	$goLeft()
 	{
 		if (!this.wrap && this.index + 1 === this.numTiles) return;
 
-		if (this.translationComplete === true) {
+		if (this.translationComplete === true || this.skipTranslation) {
 			if (this.transform) this.translationComplete = false;
 			this.index++;
 			if (this.index % this.numTiles === 1) this.index = 1;
@@ -206,11 +217,20 @@ class Carousel extends View
 		}
 	}
 
-	$goRight()
+	$goRightBy(amount: number)
+	{
+		this.skipTranslation = true;
+		for (let i = 0; i < amount; i++) {
+			this.$goRight();
+		}
+		this.skipTranslation = false;
+	}
+
+	$goRight(skipTranslation?: boolean)
 	{
 		if (!this.wrap && this.index === 0) return;
 
-		if (this.translationComplete === true) {
+		if (this.translationComplete === true || skipTranslation) {
 			if (this.transform) this.translationComplete = false;
 			this.index--;
 			if (this.index < 0) this.index = this.numTiles - 1;
