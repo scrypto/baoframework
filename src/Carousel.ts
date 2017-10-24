@@ -206,11 +206,11 @@ class Carousel extends View
 		}
 	}
 
-	$goRight()
+	$goRight(skipTranslation?: boolean)
 	{
 		if (!this.wrap && this.index === 0) return;
 
-		if (this.translationComplete === true) {
+		if (this.translationComplete === true || skipTranslation) {
 			if (this.transform) this.translationComplete = false;
 			this.index--;
 			if (this.index < 0) this.index = this.numTiles - 1;
