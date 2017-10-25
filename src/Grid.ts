@@ -81,6 +81,11 @@ class Grid extends View
 		if (data && data["innerHTML"]) {
 			element.innerHTML = data["innerHTML"];
 		}
+		if (data && data["classList"]) {
+			for (let i = 0; i < data["classList"].length; i++) {
+				element.classList.add(data["classList"][i]);
+			}
+		}
 	}
 
 	onTileAction(e)
