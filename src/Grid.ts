@@ -83,7 +83,7 @@ class Grid extends View
 		}
 		if (data && data["classList"]) {
 			for (let i = 0; i < data["classList"].length; i++) {
-				element.classList.add(data["classList"][i]);
+				element.$addClass(data["classList"][i]);
 			}
 		}
 	}
