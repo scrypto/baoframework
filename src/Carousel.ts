@@ -12,6 +12,7 @@ class Carousel extends View
 	focusIndex:number;
 	outerIndex:number;
 	wrap:boolean;
+	wrapAmount: number;
 	transform:boolean;
 	obtype = "carousel";
 	scrollStyle: number;
@@ -29,6 +30,7 @@ class Carousel extends View
 		this.focusIndex = 1;
 		this.outerIndex = 0;
 		this.wrap = true;
+		this.wrapAmount = 1;
 		this.transform = true;
 		this.scrollStyle = 1; // '1' means scroll first then move right, '2' means move right first then scroll.
 		this.skipTranslation = false;
@@ -67,18 +69,16 @@ class Carousel extends View
 
 	$setWrap(wrap:boolean)
 	{
-		if (this.wrap !== wrap) {
-			let offset = wrap ? (0 - this.tileWidth) : 0;
-			for (let i = 0; i < this.element.children.length; i++) {
-				this.translations[i] = offset;
+		let offset = wrap ? (0 - this.tileWidth * this.wrapAmount) : 0;
+		for (let i = 0; i < this.element.children.length; i++) {
+			this.translations[i] = offset;
 
-				let child:any = this.element.children[i];
-				child.style.transform = "translateX(" + this.translations[i] + "px)";
-				child.style.webkitTransform = "translateX(" + this.translations[i] + "px)";
-			}
-			this.wrap = wrap;
-			this.focusIndex = wrap ? 1 : 0;
+			let child:any = this.element.children[i];
+			child.style.transform = "translateX(" + this.translations[i] + "px)";
+			child.style.webkitTransform = "translateX(" + this.translations[i] + "px)";
 		}
+		this.wrap = wrap;
+		this.focusIndex = wrap ? this.wrapAmount : 0;
 	}
 
 	$createContent()
@@ -118,8 +118,8 @@ class Carousel extends View
 			div.setAttribute("class", "bao--carouselitem");
 			div.style.display = "inline-block";
 			div.style.position = "relative";
-			div.style.transform = "translateX(-" + this.tileWidth + "px)";
-			div.style.webkitTransform = "translateX(-" + this.tileWidth + "px)";
+			div.style.transform = "translateX(-" + (this.tileWidth * this.wrapAmount) + "px)";
+			div.style.webkitTransform = "translateX(-" + (this.tileWidth * this.wrapAmount) + "px)";
 			div.style.width = this.tileWidth + "px";
 			div.style.height = "100%";
 			this.element.appendChild(div);
@@ -206,7 +206,7 @@ class Carousel extends View
 			}
 
 			if (this.wrap) {
-				this.focusIndex = (this.index+1) % this.numTiles;
+				this.focusIndex = (this.index + this.wrapAmount) % this.numTiles;
 				if (Core().MetaConfig.$get("animation") === "off") {
 					this.$transitionCompleted(null);
 				}
@@ -270,7 +270,7 @@ class Carousel extends View
 			}
 
 			if (this.wrap) {
-				this.focusIndex = (this.index+1) % this.numTiles;
+				this.focusIndex = (this.index + this.wrapAmount) % this.numTiles;
 				if (Core().MetaConfig.$get("animation") === "off") {
 					this.$transitionCompleted(null);
 				}
