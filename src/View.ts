@@ -1,6 +1,7 @@
 import Core from "./Core"
+import Base from "./Base"
 
-class View
+class View extends Base
 {
 	orientation: string;
 	initialised: boolean;
@@ -10,10 +11,10 @@ class View
 
 	constructor()
 	{
+		super();
 		this.element = null;
 		this.initialised = false;
 		this.orientation = "none";
-		this.$bind();
 	}
 
 	$createElement(type)
@@ -167,15 +168,6 @@ class View
 		if (e.stopPropagation) e.stopPropagation();
 	}
 
-	$bind()
-	{
-		for (let member in this) {
-			if ("function" === typeof this[member]) {
-				this[member] = (this[member] as any).bind(this);
-			}
-		}
-	}
-
 	$_stitch()
 	{
 		let exclude = this.$exclusions();
@@ -203,7 +195,7 @@ class View
 
 	$exclusions()
 	{
-		return ["constructor","appendChild","createElement","getElementById","assignElement","_stitch","setupListeners","exclusions"];
+		return super.$exclusions().concat(["constructor","appendChild","createElement","getElementById","assignElement","_stitch","setupListeners","exclusions"]);
 	}
 
 	$setupListeners()
