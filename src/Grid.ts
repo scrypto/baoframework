@@ -91,6 +91,9 @@ class Grid extends View
 	onTileAction(e)
 	{
 		this.$signal("$action", e.sender);
+		e.preventDefault();
+		e.stopPropagation();
+		return false;
 	}
 
 	$focus()
