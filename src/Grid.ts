@@ -55,12 +55,20 @@ class Grid extends View
 		if (data) {
 			let rows = -1;
 			let cols = -1;
+			let type = "";
+
 			if (data["rows"]) rows = data["rows"];
 			if (data["cols"]) cols = data["cols"];
+			if (data["tileType"]) type = data["tileType"];
 
-			if (rows > -1 && cols > -1) {
-				this.numRows = rows;
-				this.numCols = cols;
+			if ((rows > -1 && cols > -1) || type) {
+				if (rows > -1 && cols > -1) {
+					this.numRows = rows;
+					this.numCols = cols;
+				}
+				if (type) {
+					this.tileType = type;
+				}
 				this.$createTiles();
 			}
 
@@ -78,12 +86,14 @@ class Grid extends View
 
 	$setTileContent(element, data?)
 	{
-		if (data && data["innerHTML"]) {
-			element.innerHTML = data["innerHTML"];
-		}
-		if (data && data["classList"]) {
-			for (let i = 0; i < data["classList"].length; i++) {
-				element.$addClass(data["classList"][i]);
+		if (data) {
+			if (data["innerHTML"]) {
+				element.innerHTML = data["innerHTML"];
+			}
+			if (data["classList"]) {
+				for (let i = 0; i < data["classList"].length; i++) {
+					element.$addClass(data["classList"][i]);
+				}
 			}
 		}
 	}
@@ -91,6 +101,9 @@ class Grid extends View
 	onTileAction(e)
 	{
 		this.$signal("$action", e.sender);
+		e.preventDefault();
+		e.stopPropagation();
+		return false;
 	}
 
 	$focus()
