@@ -115,7 +115,7 @@ class Grid extends View
 	$onDownKey(node?)
 	{
 		if (this.rowIndex === this.numRows - 1) {
-			super.$onDownKey(this.element);
+			super.$onDownKey();
 		} else {
 			this.rowIndex++;
 			this._updateFocus();
@@ -125,7 +125,7 @@ class Grid extends View
 	$onUpKey(node?)
 	{
 		if (this.rowIndex === 0) {
-			super.$onUpKey(this.element);
+			super.$onUpKey();
 		} else {
 			this.rowIndex--;
 			this._updateFocus();
@@ -135,7 +135,7 @@ class Grid extends View
 	$onLeftKey(node?)
 	{
 		if (this.colIndex === 0) {
-			super.$onLeftKey(this.element);
+			super.$onLeftKey();
 		} else {
 			this.colIndex--;
 			this._updateFocus();
@@ -145,7 +145,7 @@ class Grid extends View
 	$onRightKey(node?)
 	{
 		if (this.colIndex === this.numCols - 1) {
-			super.$onRightKey(this.element);
+			super.$onRightKey();
 		} else {
 			this.colIndex++;
 			this._updateFocus();
