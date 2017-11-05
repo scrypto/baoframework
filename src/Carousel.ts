@@ -91,6 +91,13 @@ class Carousel extends View
 				"-o-transition: -o-transform 0.25s, opacity 0.1s;",
 				"transition: transform 0.25s, opacity 0.1s;"
 			]);
+			Core().Style.$addStyle(".bao--carouselitem.outer", [
+				"-webkit-transition: none !important;",
+				"-moz-transition: none !important;",
+				"-o-transition: none !important;",
+				"transition: none !important;",
+				"visibility: hidden;"
+			]);
 		} else {
 			Core().Style.$removeStyle(".bao--carouselitem");
 		}
@@ -135,20 +142,7 @@ class Carousel extends View
 
 	$transitionCompleted(e)
 	{
-		if (!e || e.propertyName.indexOf("ransform") > 0) {
-			if (this.translationComplete === false) {
-				this.translationComplete = true;
-				for (let i = 0; i < this.element.children.length; i++) {
-					let child:any = this.element.children[i];
-					child.style.visibility = "";
-					child.style.opacity = "1";
-					if (this.focusIndex === i) {
-						if (child.$addClass) child.$addClass("focused");
-						else child.setAttribute("class", "bao--carouselitem focused");
-					}
-				}
-			}
-		}
+		this.translationComplete = true;
 	}
 
 	$goLeftBy(amount: number)
@@ -180,7 +174,6 @@ class Carousel extends View
 				for (let i = 0; i < this.element.children.length; i++) {
 					let child:any = this.element.children[i];
 					t = this.translations[i] - this.tileWidth;
-					child.style.opacity = "1";
 					child.style.transform = "translateX(" + t + "px)";
 					child.style.webkitTransform = "translateX(" + t + "px)";
 					this.translations[i] = t;
@@ -188,19 +181,11 @@ class Carousel extends View
 				}
 			}
 
-			const element:any = this.element.children[this.focusIndex];
-			if (element.$removeClass) {
-				element.$removeClass("focused");
-			} else {
-				element.setAttribute("class","bao--carouselitem");
-			}
+			this._blurTile(this.element.children[this.focusIndex]);
 
 			if (outer && this.wrap) {
 				t = this.translations[this.outerIndex] + this.tileWidth * this.numTiles;
-				outer.style.transform = "translateX(" + t + "px)";
-				outer.style.webkitTransform = "translateX(" + t + "px)";
-				outer.style.visibility = "hidden";
-				outer.style.opacity = "0";
+				this._moveOuter(outer, t);
 				this.translations[this.outerIndex] = t;
 				this.$repurposeOuter(outer, "left");
 			}
@@ -208,12 +193,14 @@ class Carousel extends View
 			if (this.wrap) {
 				this.focusIndex = (this.index + this.wrapAmount) % this.numTiles;
 				if (Core().MetaConfig.$get("animation") === "off") {
-					this.$transitionCompleted(null);
+					this.translationComplete = true;
 				}
 			} else {
 				this.focusIndex = this.index % this.numTiles;
-				this.$transitionCompleted(null);
+				this.translationComplete = true;
 			}
+
+			this._focusTile(this.element.children[this.focusIndex]);
 		}
 	}
 
@@ -244,7 +231,6 @@ class Carousel extends View
 				for (let i = 0; i < this.element.children.length; i++) {
 					let child: any = this.element.children[i];
 					t = this.translations[i] + this.tileWidth;
-					child.style.opacity = "1";
 					child.style.transform = "translateX(" + t + "px)";
 					child.style.webkitTransform = "translateX(" + t + "px)";
 					this.translations[i] = t;
@@ -252,19 +238,11 @@ class Carousel extends View
 				}
 			}
 
-			const element:any = this.element.children[this.focusIndex];
-			if (element.$removeClass) {
-				element.$removeClass("focused");
-			} else {
-				element.setAttribute("class","bao--carouselitem");
-			}
+			this._blurTile(this.element.children[this.focusIndex]);
 
 			if (outer && this.wrap) {
 				t = this.translations[this.outerIndex] - this.tileWidth * this.numTiles;
-				outer.style.transform = "translateX(" + t + "px)";
-				outer.style.webkitTransform = "translateX(" + t + "px)";
-				outer.style.visibility = "hidden";
-				outer.style.opacity = "0";
+				this._moveOuter(outer, t);
 				this.translations[this.outerIndex] = t;
 				this.$repurposeOuter(outer, "right");
 			}
@@ -272,13 +250,25 @@ class Carousel extends View
 			if (this.wrap) {
 				this.focusIndex = (this.index + this.wrapAmount) % this.numTiles;
 				if (Core().MetaConfig.$get("animation") === "off") {
-					this.$transitionCompleted(null);
+					this.translationComplete = true;
 				}
 			} else {
 				this.focusIndex = this.index % this.numTiles;
-				this.$transitionCompleted(null);
+				this.translationComplete = true;
 			}
+
+			this._focusTile(this.element.children[this.focusIndex]);
 		}
+	}
+
+	_moveOuter(outer, t)
+	{
+		if (outer.$addClass) outer.$addClass("outer");
+		else outer.setAttribute("class", "bao--carouselitem outer");
+		outer.style.transform = "translateX(" + t + "px)";
+		outer.style.webkitTransform = "translateX(" + t + "px)";
+		outer.offsetHeight;
+		this._blurTile(outer);
 	}
 
 	$repurposeOuter(outer, direction) {}
@@ -297,13 +287,8 @@ class Carousel extends View
 	{
 		for (let i = 0; i < this.element.children.length; i++) {
 			let child:any = this.element.children[i];
-			if (this.focusIndex === i) {
-				if (child.$addClass) child.$addClass("focused");
-				else child.setAttribute("class", "bao--carouselitem focused");
-			} else {
-				if (child.$removeClass) child.$removeClass("focused");
-				else child.setAttribute("class", "bao--carouselitem");
-			}
+			if (this.focusIndex === i) this._focusTile(child);
+			else this._blurTile(child);
 		}
 		return super.$focus();
 	}
@@ -312,10 +297,21 @@ class Carousel extends View
 	{
 		for (let i = 0; i < this.element.children.length; i++) {
 			let child:any = this.element.children[i];
-			if (child.$removeClass) child.$removeClass("focused");
-			else child.setAttribute("class", "bao--carouselitem");
+			this._blurTile(child);
 		}
 		super.$blur();
+	}
+
+	_focusTile(tile:any)
+	{
+		if (tile.$addClass) tile.$addClass("focused");
+		else tile.setAttribute("class", "bao--carouselitem focused");
+	}
+
+	_blurTile(tile:any)
+	{
+		if (tile.$removeClass) tile.$removeClass("focused");
+		else tile.setAttribute("class", "bao--carouselitem");
 	}
 }
 
