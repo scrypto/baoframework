@@ -1,12 +1,12 @@
 export const $ = (id:string):any => {
 	let node = document.getElementById($["prefix"]+id);
-	if (!node) node = Core().CatchAll;
+	if (!node) node = Core().NotFound;
 	return node;
 }
 $["prefix"] = "";
 
 let CoreImpl = {
-	CatchAll: document.createElement("object"),
+	NotFound: document.createElement("object"),
 	Style: null,
 	Focus: null,
 	DataStore: null,
@@ -94,7 +94,7 @@ let CoreImpl = {
 		if (rv) {
 			for (let prop in rv) {
 				if (prop[0] === "$" && typeof rv[prop] === "function") {
-					CoreImpl.CatchAll[prop] = function() {
+					CoreImpl.NotFound[prop] = function() {
 						console.warn("DANGER: you are calling a function for an object that was not found. This is bad.");
 						return false;
 					}
