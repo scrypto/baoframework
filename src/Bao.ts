@@ -4,6 +4,7 @@ import "./Focus"
 import "./Meta"
 
 export {default as Ajax} from "./Ajax";
+export {default as Base} from "./Base";
 export {default as Carousel} from "./Carousel";
 export {$, default as Core} from "./Core";
 export {default as DataStore} from "./DataStore";
