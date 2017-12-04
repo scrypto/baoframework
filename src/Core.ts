@@ -1,7 +1,12 @@
-export const $ = (id:string):any => document.getElementById($["prefix"]+id);
+export const $ = (id:string):any => {
+	let node = document.getElementById($["prefix"]+id);
+	if (!node) node = Core().NotFound;
+	return node;
+}
 $["prefix"] = "";
 
 let CoreImpl = {
+	NotFound: document.createElement("object"),
 	Style: null,
 	Focus: null,
 	DataStore: null,
@@ -67,23 +72,36 @@ let CoreImpl = {
 			return new component.constructor();
 		}
 
+		let rv = null;
+
 		if (CoreImpl.components) {
 			if (CoreImpl.components[type] && CoreImpl.components[type].length > 0) {
 				for (let i = 1; i < CoreImpl.components[type].length; i++) {
 					let component = CoreImpl.components[type][i];
 					if (CoreImpl.check(component)) {
 						CoreImpl.cache[type] = component;
-						return new component.constructor();
+						rv = new component.constructor();
+						break;
 					}
 				}
 
-				if (CoreImpl.check(CoreImpl.components[type][0])) {
+				if (!rv && CoreImpl.check(CoreImpl.components[type][0])) {
 					CoreImpl.cache[type] = CoreImpl.components[type][0];
-					return new CoreImpl.components[type][0].constructor();
+					rv = new CoreImpl.components[type][0].constructor();
 				}
 			}
 		}
-		return null;
+		if (rv) {
+			for (let prop in rv) {
+				if (prop[0] === "$" && typeof rv[prop] === "function") {
+					CoreImpl.NotFound[prop] = function() {
+						console.warn("DANGER: you are calling a function for an object that was not found. This is bad.");
+						return false;
+					}
+				}
+			}
+		}
+		return rv;
 	},
 	check: function(component)
 	{
