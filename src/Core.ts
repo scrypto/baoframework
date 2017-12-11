@@ -1,12 +1,20 @@
 export const $ = (id:string):any => {
 	let node = document.getElementById($["prefix"]+id);
-	if (!node) node = Core().NotFound;
+	if (!node) node = $["NotFound"];
 	return node;
 }
+
 $["prefix"] = "";
+$["NotFound"] = document.createElement("object");
+$["NotFoundBehaviours"] = {
+	IGNORE: 0,
+	WARNING: 1,
+	EXCEPTION: 2
+}
+$["NotFoundBehaviour"] = $["NotFoundBehaviours"].IGNORE;
 
 let CoreImpl = {
-	NotFound: document.createElement("object"),
+	NotFound: $["NotFound"], // for backwards compatibility
 	Style: null,
 	Focus: null,
 	DataStore: null,
@@ -94,8 +102,16 @@ let CoreImpl = {
 		if (rv) {
 			for (let prop in rv) {
 				if (prop[0] === "$" && typeof rv[prop] === "function") {
-					CoreImpl.NotFound[prop] = function() {
-						console.warn("DANGER: you are calling a function for an object that was not found. This is bad.");
+					$["NotFound"][prop] = function() {
+						switch ($["NotFoundBehaviour"]) {
+							case $["NotFoundBehaviours"].IGNORE:
+								break;
+							case $["NotFoundBehaviours"].WARN:
+								console.warn("DANGER: you are calling a function for an object that was not found. This is bad.");
+								break;
+							case $["NotFoundBehaviours"].EXCEPTION:
+								throw new Error("DANGER: you are calling a function for an object that was not found. This is bad.");
+						}
 						return false;
 					}
 				}
