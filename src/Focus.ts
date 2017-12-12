@@ -14,6 +14,10 @@ class Focus extends View
 
 	$set(widget)
 	{
+		if (widget === Core().NotFound) {
+			return;
+		}
+
 		if (this.focusedElement !== widget) {
 			if (this.focusedElement) this.focusedElement.$blur();
 			this.focusedElement = widget;
