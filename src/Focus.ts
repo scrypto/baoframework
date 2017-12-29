@@ -1,3 +1,4 @@
+import { $ } from "./Core"
 import Core from "./Core"
 import View from "./View"
 
@@ -14,7 +15,7 @@ class Focus extends View
 
 	$set(widget)
 	{
-		if (widget === Core().NotFound) {
+		if (widget === $.NotFound) {
 			return;
 		}
 
