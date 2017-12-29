@@ -1,4 +1,4 @@
-import Core from "./Core"
+import { $ } from "./Core"
 import View from "./View"
 
 class Style extends View
@@ -51,4 +51,4 @@ class Style extends View
 }
 
 export default Style;
-Core().register("bao/style", Style, null);
+$.register("bao/style", Style, null);

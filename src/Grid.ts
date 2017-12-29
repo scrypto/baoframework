@@ -1,5 +1,5 @@
 import View from "./View"
-import Core from "./Core"
+import { $ } from "./Core"
 
 class Grid extends View
 {
@@ -47,7 +47,7 @@ class Grid extends View
 			let br = document.createElement("br");
 			this.element.appendChild(br);
 		}
-		Core().parseDOM(this.element);
+		$.parseDOM(this.element);
 	}
 
 	$setData(data)
@@ -155,10 +155,10 @@ class Grid extends View
 	_updateFocus()
 	{
 		let i = this.rowIndex * (this.numCols + 1) + this.colIndex;
-		let focus:any = Core().Focus;
+		let focus:any = $.Focus;
 		focus.$set(this.element.children[i]);
 	}
 }
 
 export default Grid;
-Core().register("grid", Grid, null);
+$.register("grid", Grid, null);
