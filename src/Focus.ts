@@ -1,5 +1,4 @@
 import { $ } from "./Core"
-import Core from "./Core"
 import View from "./View"
 
 class Focus extends View
@@ -47,4 +46,4 @@ class Focus extends View
 }
 
 export default Focus;
-Core().register("bao/focusManager", Focus, null);
+$.register("bao/focusManager", Focus, null);

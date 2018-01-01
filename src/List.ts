@@ -1,5 +1,5 @@
 import View from "./View"
-import Core from "./Core"
+import { $ } from "./Core"
 
 class List extends View
 {
@@ -24,8 +24,8 @@ class List extends View
 	{
 		this.$createRowsFromChildren();
 
-		if (Core().MetaConfig.$get("animation") !== "off") {
-			Core().Style.$addStyle(".bao--listitem", [
+		if ($.MetaConfig.$get("animation") !== "off") {
+			$.Style.$addStyle(".bao--listitem", [
 				"background: transparent;",
 				"-webkit-transition: -webkit-transform 0.25s, opacity 0.1s;",
 				"-moz-transition: -moz-transform 0.25s, opacity 0.1s;",
@@ -33,7 +33,7 @@ class List extends View
 				"transition: transform 0.25s, opacity 0.1s;"
 			]);
 		} else {
-			Core().Style.$removeStyle(".bao--listitem");
+			$.Style.$removeStyle(".bao--listitem");
 		}
 	}
 
@@ -101,7 +101,7 @@ class List extends View
 
 					this.translations[i] = t;
 				}
-				if (Core().MetaConfig.$get("animation") === "off") {
+				if ($.MetaConfig.$get("animation") === "off") {
 					this.$transitionCompleted(null);
 				}
 			} else {
@@ -139,7 +139,7 @@ class List extends View
 					this.translations[i] = t;
 				}
 
-				if (Core().MetaConfig.$get("animation") === "off") {
+				if ($.MetaConfig.$get("animation") === "off") {
 					this.$transitionCompleted(null);
 				}
 			} else {
@@ -194,4 +194,4 @@ class List extends View
 }
 
 export default List;
-Core().register("list", List, null);
+$.register("list", List, null);

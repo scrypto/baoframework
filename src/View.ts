@@ -1,4 +1,4 @@
-import Core from "./Core"
+import { $ } from "./Core"
 import Base from "./Base"
 
 class View extends Base
@@ -91,7 +91,7 @@ class View extends Base
 			return false;
 		}
 
-		var f = Core().Focus;
+		var f = $.Focus;
 		var n:any = this.element.firstChild;
 		while (n) {
 			if (n["stitched"]) {
@@ -210,7 +210,7 @@ class View extends Base
 		if (data) {
 			if (typeof data == "string" || data["innerHTML"]) {
 				this.element.innerHTML = data["innerHTML"];
-				Core().parseDOM(this.element);
+				$.parseDOM(this.element);
 			} else if (data["addClass"]) {
 				this.element.classList.add(data["addClass"]);
 			} else if (data["removeClass"]) {
@@ -235,7 +235,7 @@ class View extends Base
 				var sibling:any = node.previousSibling;
 				while (sibling) {
 					if (sibling.$focus && sibling["stitched"]) {
-						var focus:any = Core().Focus;
+						var focus:any = $.Focus;
 						if (focus && sibling.$focus()) {
 							focus.$set(sibling);
 							return;
@@ -263,7 +263,7 @@ class View extends Base
 				var sibling:any = node.nextSibling;
 				while (sibling) {
 					if (sibling.$focus && sibling["stitched"]) {
-						var focus:any = Core().Focus;
+						var focus:any = $.Focus;
 						if (focus && sibling.$focus()) {
 							focus.$set(sibling);
 							return;
@@ -291,7 +291,7 @@ class View extends Base
 				var sibling:any = node.previousSibling;
 				while (sibling) {
 					if (sibling.$focus && sibling["stitched"]) {
-						var focus:any = Core().Focus;
+						var focus:any = $.Focus;
 						if (focus && sibling.$focus()) {
 							focus.$set(sibling);
 							return;
@@ -319,7 +319,7 @@ class View extends Base
 				var sibling:any = node.nextSibling;
 				while (sibling) {
 					if (sibling.$focus && sibling["stitched"]) {
-						var focus:any = Core().Focus;
+						var focus:any = $.Focus;
 						if (focus && sibling.$focus()) {
 							focus.$set(sibling);
 							return;
@@ -369,4 +369,4 @@ class View extends Base
 }
 
 export default View
-Core().register("view", View, null);
+$.register("view", View, null);
