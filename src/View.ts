@@ -96,7 +96,7 @@ class View extends Base
 		while (n) {
 			if (n["stitched"]) {
 				if (n.$focus && n.$focus()) {
-					f.$set(n);
+					setTimeout(() => { f.$set(n); });
 					return true;
 				}
 			}
@@ -106,6 +106,7 @@ class View extends Base
 		if (!this.$hasClass("focused")) {
 			this.$addClass("focused");
 			this.$signal("$focus");
+			this.$signal("$childHasFocus");
 		}
 		return true;
 	}
