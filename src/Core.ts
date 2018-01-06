@@ -115,6 +115,19 @@ let createObject = (id, type?, tag?) => {
 	return obj;
 }
 
+let ObjectNotFound = function() {
+	switch ($.NotFoundBehaviour) {
+		case $.NotFoundBehaviours.IGNORE:
+			break;
+		case $.NotFoundBehaviours.WARNING:
+			console.warn("DANGER: you are calling a function for an object that was not found. This is bad.");
+			break;
+		case $.NotFoundBehaviours.EXCEPTION:
+			throw new Error("DANGER: you are calling a function for an object that was not found. This is bad.");
+	}
+	return false;
+}
+
 // private properties
 let initialised = false;
 let components = {};
@@ -222,20 +235,7 @@ $.create = (type) => {
 	if (rv) {
 		for (let prop in rv) {
 			if (prop[0] === "$" && typeof rv[prop] === "function") {
-				if (!$.NotFound[prop]) {
-					$.NotFound[prop] = function() {
-						switch ($.NotFoundBehaviour) {
-							case $.NotFoundBehaviours.IGNORE:
-								break;
-							case $.NotFoundBehaviours.WARNING:
-								console.warn("DANGER: you are calling a function for an object that was not found. This is bad.");
-								break;
-							case $.NotFoundBehaviours.EXCEPTION:
-								throw new Error("DANGER: you are calling a function for an object that was not found. This is bad.");
-						}
-						return false;
-					}
-				}
+				if (!$.NotFound[prop]) $.NotFound[prop] = ObjectNotFound;
 			}
 		}
 	}
