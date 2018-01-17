@@ -209,17 +209,25 @@ class View extends Base
 	$setData(data)
 	{
 		if (data) {
-			if (typeof data == "string" || data["innerHTML"]) {
+			if (typeof data == "string") {
 				this.element.innerHTML = data["innerHTML"];
 				$.parseDOM(this.element);
-			} else if (data["addClass"]) {
-				this.element.classList.add(data["addClass"]);
-			} else if (data["removeClass"]) {
-				this.element.classList.remove(data["removeClass"]);
-			} else if (data["innerTEXT"]) {
-				let t = document.createTextNode(data["innerTEXT"]);
-				this.element.innerHTML = "";
-				this.element.appendChild(t);
+			} else {
+				if (data["innerHTML"]) {
+					this.element.innerHTML = data["innerHTML"];
+					$.parseDOM(this.element);
+				}
+				if (data["addClass"]) {
+					this.element.classList.add(data["addClass"]);
+				}
+				if (data["removeClass"]) {
+					this.element.classList.remove(data["removeClass"]);
+				}
+				if (data["innerTEXT"]) {
+					let t = document.createTextNode(data["innerTEXT"]);
+					this.element.innerHTML = "";
+					this.element.appendChild(t);
+				}
 			}
 		}
 	}
