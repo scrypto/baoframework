@@ -1,5 +1,5 @@
 import View from "./View"
-import Core from "./Core"
+import { $ } from "./Core"
 
 class MenuItem extends View
 {
@@ -72,7 +72,7 @@ class MenuItem extends View
 	}
 }
 
-Core().register("menuitem", MenuItem, null);
+$.register("menuitem", MenuItem, null);
 
 class Menu extends View
 {
@@ -97,7 +97,7 @@ class Menu extends View
 
 	$createMenuEntry(entry)
 	{
-		let rv = Core("menuitem").$createElement("div");
+		let rv = $.create("menuitem").$createElement("div");
 		if (!entry["label"]) entry["label"] = "&#160;";
 		rv.addEventListener("action", this.$onMenuItemAction);
 		rv.$setData(entry);
@@ -119,7 +119,7 @@ class Menu extends View
 
 	$focus(obj?)
 	{
-		let f = Core().Focus;
+		let f = $.Focus;
 		let node:any = this.element.firstChild;
 		while (node) {
 			if (node.obtype === "menuitem") {
@@ -156,4 +156,4 @@ class Menu extends View
 }
 
 export default Menu;
-Core().register("menu", Menu, null);
+$.register("menu", Menu, null);

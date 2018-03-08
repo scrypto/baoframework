@@ -1,4 +1,4 @@
-import Core from "./Core"
+import { $ } from "./Core"
 import View from "./View"
 
 class Meta extends View
@@ -53,4 +53,4 @@ class Meta extends View
 }
 
 export default Meta;
-Core().register("bao/metaConfig", Meta, null);
+$.register("bao/metaConfig", Meta, null);

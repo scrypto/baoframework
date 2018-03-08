@@ -1,4 +1,4 @@
-import Core from "../Core";
+import { $ } from "../Core";
 import BaseVideo from "./BaseVideo";
 
 class Html5Video extends BaseVideo
@@ -142,4 +142,4 @@ class Html5Video extends BaseVideo
 }
 
 export default Html5Video;
-Core().register("video", Html5Video, { tag: "video" });
+$.register("video", Html5Video, { tag: "video" });

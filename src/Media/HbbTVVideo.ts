@@ -1,4 +1,4 @@
-import Core from "../Core";
+import { $ } from "../Core";
 import BaseVideo from "./BaseVideo";
 
 class HbbTVVideo extends BaseVideo
@@ -120,4 +120,4 @@ class HbbTVVideo extends BaseVideo
 }
 
 export default HbbTVVideo;
-Core().register("video", HbbTVVideo, { tag: "object", ua: /.*HbbTV.*1.2.1/ });
+$.register("video", HbbTVVideo, { tag: "object", ua: /.*HbbTV.*1.2.1/ });

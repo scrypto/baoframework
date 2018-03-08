@@ -1,5 +1,5 @@
 import View from "./View"
-import Core from "./Core"
+import { $ } from "./Core"
 
 class Carousel extends View
 {
@@ -83,15 +83,15 @@ class Carousel extends View
 
 	$createContent()
 	{
-		if (Core().MetaConfig.$get("animation") !== "off") {
-			Core().Style.$addStyle(".bao--carouselitem", [
+		if ($.MetaConfig.$get("animation") !== "off") {
+			$.Style.$addStyle(".bao--carouselitem", [
 				"background: transparent;",
 				"-webkit-transition: -webkit-transform 0.25s, opacity 0.1s;",
 				"-moz-transition: -moz-transform 0.25s, opacity 0.1s;",
 				"-o-transition: -o-transform 0.25s, opacity 0.1s;",
 				"transition: transform 0.25s, opacity 0.1s;"
 			]);
-			Core().Style.$addStyle(".bao--carouselitem.outer", [
+			$.Style.$addStyle(".bao--carouselitem.outer", [
 				"-webkit-transition: none !important;",
 				"-moz-transition: none !important;",
 				"-o-transition: none !important;",
@@ -99,7 +99,7 @@ class Carousel extends View
 				"visibility: hidden;"
 			]);
 		} else {
-			Core().Style.$removeStyle(".bao--carouselitem");
+			$.Style.$removeStyle(".bao--carouselitem");
 		}
 
 		this.element.style.whiteSpace = "nowrap";
@@ -192,7 +192,7 @@ class Carousel extends View
 
 			if (this.wrap) {
 				this.focusIndex = (this.index + this.wrapAmount) % this.numTiles;
-				if (Core().MetaConfig.$get("animation") === "off") {
+				if ($.MetaConfig.$get("animation") === "off") {
 					this.translationComplete = true;
 				}
 			} else {
@@ -249,7 +249,7 @@ class Carousel extends View
 
 			if (this.wrap) {
 				this.focusIndex = (this.index + this.wrapAmount) % this.numTiles;
-				if (Core().MetaConfig.$get("animation") === "off") {
+				if ($.MetaConfig.$get("animation") === "off") {
 					this.translationComplete = true;
 				}
 			} else {
@@ -316,4 +316,4 @@ class Carousel extends View
 }
 
 export default Carousel;
-Core().register("carousel", Carousel, null);
+$.register("carousel", Carousel, null);

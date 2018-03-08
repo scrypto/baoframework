@@ -1,4 +1,4 @@
-import Core from "./Core"
+import { $ } from "./Core"
 import View from "./View"
 
 class DataStore extends View
@@ -48,4 +48,4 @@ class DataStore extends View
 }
 
 export default DataStore;
-Core().register("bao/dataStore", DataStore, null);
+$.register("bao/dataStore", DataStore, null);

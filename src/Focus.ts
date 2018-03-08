@@ -1,4 +1,4 @@
-import Core from "./Core"
+import { $ } from "./Core"
 import View from "./View"
 
 class Focus extends View
@@ -14,6 +14,10 @@ class Focus extends View
 
 	$set(widget)
 	{
+		if (widget === $.NotFound) {
+			return;
+		}
+
 		if (this.focusedElement !== widget) {
 			if (this.focusedElement) this.focusedElement.$blur();
 			this.focusedElement = widget;
@@ -42,4 +46,4 @@ class Focus extends View
 }
 
 export default Focus;
-Core().register("bao/focusManager", Focus, null);
+$.register("bao/focusManager", Focus, null);

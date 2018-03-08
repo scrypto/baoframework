@@ -1,4 +1,4 @@
-import Core from "./Core"
+import { $ } from "./Core"
 import View from "./View"
 
 class Ajax extends View
@@ -66,4 +66,4 @@ class Ajax extends View
 }
 
 export default Ajax;
-Core().register("ajax", Ajax, null);
+$.register("ajax", Ajax, null);
