@@ -170,37 +170,50 @@ $.register = (type, constructor, rules) => {
 //
 // This function parses the DOM tree at the provided node (or the document root if none provided)
 // and will create framework objects based on the value in the data-type attribute
-$.parseDOM = (node?) => {
-	if (!node) node = document.body;
-	if (!node["stitched"]) {
-		if (node.attributes) {
-			let type = node.getAttribute("data-type");
-			if (type) {
-				let obj = null;
-				if (type == "bao/metaConfig") {
-					obj = $.MetaConfig;
-				} else {
-					currentTagName = node.tagName;
-					obj = $.create(type);
-					currentTagName = null;
-				}
-				if (obj) {
-					obj.$assignElement(node);
-					if (type === "bao/focusManager") {
-						$.Focus = node;
-					} else if (type === "bao/dataStore") {
-						$.DataStore = node;
-					} else if (type === "bao/style") {
-						$.Style = node;
+$.parseDOM = (root?) => {
+	if (!root) {
+		root = document.body;
+	}
+
+	let node = root;
+	let deep = true;
+
+	do {
+		if (!node["stitched"]) {
+			if (node.attributes) {
+				let type = node.getAttribute("data-type");
+				if (type) {
+					let obj = null;
+					if (type == "bao/metaConfig") {
+						obj = $.MetaConfig;
+					} else {
+						currentTagName = node.tagName;
+						obj = $.create(type);
+						currentTagName = null;
+					}
+					if (obj) {
+						obj.$assignElement(node);
+						if (type === "bao/focusManager") {
+							$.Focus = node;
+						} else if (type === "bao/dataStore") {
+							$.DataStore = node;
+						} else if (type === "bao/style") {
+							$.Style = node;
+						}
 					}
 				}
 			}
 		}
-	}
-	for (let i = 0; i < node.children.length; i++) {
-		let child = node.children[i];
-		if (child) $.parseDOM(child);
-	}
+		if (node.firstChild && deep) {
+			node = node.firstChild;
+		} else if (node.nextSibling) {
+			node = node.nextSibling;
+			deep = true;
+		} else {
+			node = node.parentNode;
+			deep = false;
+		}
+	} while (node !== root);
 };
 
 // create
