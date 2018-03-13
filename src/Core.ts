@@ -178,7 +178,7 @@ $.parseDOM = (root?) => {
 	let node = root;
 	let deep = true;
 
-	while (true) {
+	do {
 		if (!node["stitched"]) {
 			if (node.attributes) {
 				let type = node.getAttribute("data-type");
@@ -206,16 +206,16 @@ $.parseDOM = (root?) => {
 		}
 		if (node.firstChild && deep) {
 			node = node.firstChild;
+		} else if (node === root) {
+			break;
 		} else if (node.nextSibling) {
 			node = node.nextSibling;
 			deep = true;
-		} else if (node === root) {
-			break;
 		} else {
 			node = node.parentNode;
 			deep = false;
 		}
-	}
+	} while (node !== null);
 };
 
 // create
