@@ -217,7 +217,7 @@ class Carousel extends View
 	{
 		if (!this.wrap && this.index === 0) return;
 
-		if (this.translationComplete === true || skipTranslation) {
+		if (this.translationComplete === true || this.skipTranslation === false) {
 			if (this.transform) this.translationComplete = false;
 			this.index--;
 			if (this.index < 0) this.index = this.numTiles - 1;
