@@ -12,7 +12,7 @@ export interface _$ {
 
 	// public functions
 	register(type, constructor, rules): any,
-	parseDOM(node?): any,
+	parseDOM(node? : HTMLElement): any,
 	create(type): any,
 	setup(): any
 }
@@ -170,52 +170,35 @@ $.register = (type, constructor, rules) => {
 //
 // This function parses the DOM tree at the provided node (or the document root if none provided)
 // and will create framework objects based on the value in the data-type attribute
-$.parseDOM = (root?) => {
-	if (!root) {
-		root = document.body;
-	}
-
-	let node = root;
-	let deep = true;
-
-	do {
+$.parseDOM = (root : HTMLElement = document.body) => {
+	[
+		root,
+		...Array.prototype.slice.call(root.querySelectorAll("[data-type]") as any),
+	].forEach((node) => {
 		if (!node["stitched"]) {
-			if (node.attributes) {
-				let type = node.getAttribute("data-type");
-				if (type) {
-					let obj = null;
-					if (type == "bao/metaConfig") {
-						obj = $.MetaConfig;
-					} else {
-						currentTagName = node.tagName;
-						obj = $.create(type);
-						currentTagName = null;
-					}
-					if (obj) {
-						obj.$assignElement(node);
-						if (type === "bao/focusManager") {
-							$.Focus = node;
-						} else if (type === "bao/dataStore") {
-							$.DataStore = node;
-						} else if (type === "bao/style") {
-							$.Style = node;
-						}
+			const type = node.getAttribute("data-type");
+			if (type) {
+				let obj = null;
+				if (type === "bao/metaConfig") {
+					obj = $.MetaConfig;
+				} else {
+					currentTagName = node.tagName;
+					obj = $.create(type);
+					currentTagName = null;
+				}
+				if (obj) {
+					obj.$assignElement(node);
+					if (type === "bao/focusManager") {
+						$.Focus = node;
+					} else if (type === "bao/dataStore") {
+						$.DataStore = node;
+					} else if (type === "bao/style") {
+						$.Style = node;
 					}
 				}
 			}
 		}
-		if (node.firstChild && deep) {
-			node = node.firstChild;
-		} else if (node === root) {
-			break;
-		} else if (node.nextSibling) {
-			node = node.nextSibling;
-			deep = true;
-		} else {
-			node = node.parentNode;
-			deep = false;
-		}
-	} while (node !== null);
+	});
 };
 
 // create
