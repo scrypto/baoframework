@@ -24,6 +24,7 @@ class View extends Base
 		if (this.element["stitched"]) throw new Error("DOM element already attached");
 		this.$_stitch();
 		this.$createContent();
+		$.parseDOM(this.element);
 		return (this.element as any);
 	}
 
@@ -35,6 +36,7 @@ class View extends Base
 		if (this.element["stitched"]) throw new Error("DOM element already attached");
 		this.$_stitch();
 		this.$createContent();
+		$.parseDOM(this.element);
 		return (this.element as any);
 	}
 
@@ -46,6 +48,7 @@ class View extends Base
 		if (this.element["stitched"]) throw new Error("DOM element already attached");
 		this.$_stitch();
 		this.$createContent();
+		$.parseDOM(this.element);
 		return (this.element as any);
 	}
 
