@@ -21,15 +21,20 @@ class View extends Base
 	{
 		this.$removeListeners();
 
-		if (this.element) {
-			let child:any = this.element.firstChild;
+		if (this.element) this.$destroyChildren(this.element);
+		this.element = null;
+	}
+
+	$destroyChildren(node)
+	{
+		if (node) {
+			let child:any = node.firstChild;
 			while (child) {
 				if (child.$destroy) child.$destroy();
+				else this.$destroyChildren(child);
 				child = child.nextSibling;
 			}
 		}
-
-		this.element = null;
 	}
 
 	$createElement(type)
