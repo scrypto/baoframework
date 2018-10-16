@@ -59,6 +59,21 @@ class List extends View
 		}
 	}
 
+	$removeListeners()
+	{
+		super.$removeListeners();
+		if (this.element) {
+			const len = this.element.children.length;
+			for (let i = 0; i < len; i++) {
+				const child = this.element.children[i];
+				child.removeEventListener("transitioned", this.$transitionCompleted);
+				child.removeEventListener("webkitTransitionEnd", this.$transitionCompleted);
+				child.removeEventListener("oTransitionEnd", this.$transitionCompleted);
+				child.removeEventListener("MSTransitionEnd", this.$transitionCompleted);
+			}
+		}
+	}
+
 	$transitionCompleted(e)
 	{
 		if (!e || e.propertyName.indexOf("ransform") > 0) {

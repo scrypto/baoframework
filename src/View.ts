@@ -17,6 +17,21 @@ class View extends Base
 		this.orientation = "none";
 	}
 
+	$destroy()
+	{
+		this.$removeListeners();
+
+		if (this.element) {
+			let child:any = this.element.firstChild;
+			while (child) {
+				if (child.$destroy) child.$destroy();
+				child = child.nextSibling;
+			}
+		}
+
+		this.element = null;
+	}
+
 	$createElement(type)
 	{
 		if (this.initialised === true) throw new Error("Already attached");
@@ -206,6 +221,13 @@ class View extends Base
 	{
 		if (this.element) {
 			this.element.addEventListener("click", this.$onClick);
+		}
+	}
+
+	$removeListeners()
+	{
+		if (this.element) {
+			this.element.removeEventListener("click", this.$onClick);
 		}
 	}
 

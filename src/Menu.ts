@@ -109,6 +109,18 @@ class Menu extends View
 		return rv;
 	}
 
+	$removeListeners()
+	{
+		super.$removeListeners();
+		if (this.element) {
+			const len = this.element.children.length;
+			for (let i = 0; i < len; i++) {
+				const child = this.element.children[i];
+				child.removeEventListener("action", this.$onMenuItemAction);
+			}
+		}
+	}
+
 	$onMenuItemAction(e)
 	{
 		this.$signal("$action", e.signalData);

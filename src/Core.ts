@@ -291,6 +291,7 @@ $.setup = () => {
 		window.dispatchEvent(ev);
 	}
 
+	window.removeEventListener("load", $.setup);
 };
 
 // Keep the Core function as the default export for backward compatibility
@@ -300,7 +301,7 @@ export default function Core(type?)
 	else return $;
 }
 
-window.addEventListener("load", () => $.setup());
+window.addEventListener("load", $.setup);
 
 import "./Style"
 import "./DataStore"

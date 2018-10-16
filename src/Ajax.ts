@@ -16,7 +16,12 @@ class Ajax extends View
 
 	$addEventListener(ev, callback)
 	{
-		this.request.addEventListener(ev, callback);
+		if (this.request) this.request.addEventListener(ev, callback);
+	}
+
+	$removeEventListener(ev, callback)
+	{
+		if (this.request) this.request.removeEventListener(ev, callback);
 	}
 
 	$open(method, url, async?)
