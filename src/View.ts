@@ -22,6 +22,7 @@ class View extends Base
 		this.$removeListeners();
 
 		if (this.element) this.$destroyChildren(this.element);
+		this.$_unstitch();
 		this.element = null;
 	}
 
@@ -215,6 +216,21 @@ class View extends Base
 		if (orientation) this.$setOrientation(orientation);
 
 		this.$setupListeners();
+	}
+
+	$_unstitch()
+	{
+		let exclude = this.$exclusions();
+		for (let member in this) {
+			if ("function" === typeof this[member]) {
+				if (exclude.indexOf(member) > -1) continue;
+				if (exclude.indexOf(member.substr(1)) > -1) continue;
+				if (member.indexOf("_") === 0) continue;
+				try { delete (this.element as any)[member]; } catch (e) {}
+			}
+		}
+		delete this.element["stitched"];
+		delete this.element["obtype"];
 	}
 
 	$exclusions()

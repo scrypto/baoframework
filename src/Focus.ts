@@ -38,6 +38,10 @@ class Focus extends View
 
 	$get()
 	{
+		if (this.focusedElement && !this.focusedElement["stitched"]) {
+			this.focusedElement = null;
+		}
+
 		return this.focusedElement;
 	}
 
