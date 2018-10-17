@@ -195,6 +195,10 @@ class View extends Base
 
 	$_stitch()
 	{
+		// this turns off hidden classes in some engines, and can reduce memory usage
+		this.element["sacrificial"] = true;
+		delete this.element["scarificial"];
+
 		let exclude = this.$exclusions();
 		for (let member in this) {
 			if ("function" === typeof this[member]) {
@@ -226,11 +230,11 @@ class View extends Base
 				if (exclude.indexOf(member) > -1) continue;
 				if (exclude.indexOf(member.substr(1)) > -1) continue;
 				if (member.indexOf("_") === 0) continue;
-				try { delete (this.element as any)[member]; } catch (e) {}
+				try { (this.element as any)[member] = null; } catch (e) {}
 			}
 		}
-		delete this.element["stitched"];
-		delete this.element["obtype"];
+		this.element["stitched"] = null;
+		this.element["obtype"] = null;
 	}
 
 	$exclusions()

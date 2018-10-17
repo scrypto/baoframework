@@ -225,7 +225,7 @@ $.create = (type) => {
 			}
 
 			if (!rv && check(components[type][0])) {
-				cache[type] = components[type][0];
+				// cache[type] = components[type][0];
 				rv = new components[type][0].constructor();
 			}
 		}
