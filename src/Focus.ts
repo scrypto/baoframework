@@ -19,7 +19,7 @@ class Focus extends View
 		}
 
 		if (this.focusedElement !== widget) {
-			if (this.focusedElement) this.focusedElement.$blur();
+			try { if (this.focusedElement) this.focusedElement.$blur(); } catch(e) {}
 			this.focusedElement = widget;
 			if (!this.focusedElement.$hasClass("focus")) {
 				this.focusedElement.$focus();
@@ -29,13 +29,19 @@ class Focus extends View
 
 	$blur()
 	{
-		let w = this.focusedElement;
-		this.focusedElement = null;
-		if (w) w.$blur();
+		try {
+			let w = this.focusedElement;
+			this.focusedElement = null;
+			if (w) w.$blur();
+		} catch (e) {}
 	}
 
 	$get()
 	{
+		if (this.focusedElement && !this.focusedElement["stitched"]) {
+			this.focusedElement = null;
+		}
+
 		return this.focusedElement;
 	}
 

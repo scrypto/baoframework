@@ -140,6 +140,22 @@ class Carousel extends View
 		}
 	}
 
+	$removeListeners()
+	{
+		super.$removeListeners();
+		// remove the listeners from the children
+		if (this.element) {
+			const len = this.element.children.length;
+			for (let i = 0; i < len; i++) {
+				const child = this.element.children[i];
+				child.removeEventListener("transitioned", this.$transitionCompleted);
+				child.removeEventListener("webkitTransitionEnd", this.$transitionCompleted);
+				child.removeEventListener("oTransitionEnd", this.$transitionCompleted);
+				child.removeEventListener("MSTransitionEnd", this.$transitionCompleted);
+			}
+		}
+	}
+
 	$transitionCompleted(e)
 	{
 		this.translationComplete = true;

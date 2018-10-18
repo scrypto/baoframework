@@ -98,6 +98,18 @@ class Grid extends View
 		}
 	}
 
+	$removeListeners()
+	{
+		super.$removeListeners();
+		if (this.element) {
+			const len = this.element.children.length;
+			for (let i = 0; i < len; i++) {
+				const child = this.element.children[i];
+				child.removeEventListener("$action", this.onTileAction);
+			}
+		}
+	}
+
 	onTileAction(e)
 	{
 		this.$signal("$action", e.sender);

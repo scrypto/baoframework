@@ -17,6 +17,27 @@ class View extends Base
 		this.orientation = "none";
 	}
 
+	$destroy()
+	{
+		this.$removeListeners();
+
+		if (this.element) this.$destroyChildren(this.element);
+		this.$_unstitch();
+		this.element = null;
+	}
+
+	$destroyChildren(node)
+	{
+		if (node) {
+			let child:any = node.firstChild;
+			while (child) {
+				if (child.$destroy) child.$destroy();
+				else this.$destroyChildren(child);
+				child = child.nextSibling;
+			}
+		}
+	}
+
 	$createElement(type)
 	{
 		if (this.initialised === true) throw new Error("Already attached");
@@ -174,6 +195,10 @@ class View extends Base
 
 	$_stitch()
 	{
+		// this turns off hidden classes in some engines, and can reduce memory usage
+		this.element["sacrificial"] = true;
+		delete this.element["scarificial"];
+
 		let exclude = this.$exclusions();
 		for (let member in this) {
 			if ("function" === typeof this[member]) {
@@ -197,6 +222,21 @@ class View extends Base
 		this.$setupListeners();
 	}
 
+	$_unstitch()
+	{
+		let exclude = this.$exclusions();
+		for (let member in this) {
+			if ("function" === typeof this[member]) {
+				if (exclude.indexOf(member) > -1) continue;
+				if (exclude.indexOf(member.substr(1)) > -1) continue;
+				if (member.indexOf("_") === 0) continue;
+				try { (this.element as any)[member] = null; } catch (e) {}
+			}
+		}
+		this.element["stitched"] = null;
+		this.element["obtype"] = null;
+	}
+
 	$exclusions()
 	{
 		return super.$exclusions().concat(["constructor","appendChild","createElement","getElementById","assignElement","_stitch","setupListeners","exclusions"]);
@@ -206,6 +246,13 @@ class View extends Base
 	{
 		if (this.element) {
 			this.element.addEventListener("click", this.$onClick);
+		}
+	}
+
+	$removeListeners()
+	{
+		if (this.element) {
+			this.element.removeEventListener("click", this.$onClick);
 		}
 	}
 
